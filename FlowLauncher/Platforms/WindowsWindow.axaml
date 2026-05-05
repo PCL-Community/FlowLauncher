@@ -1,0 +1,38 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:v="clr-namespace:FlowLauncher.Views"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="FlowLauncher.Platforms.WindowsWindow"
+        Icon="/Assets/logo.ico"
+        Title="Flow Launcher"
+        TransparencyLevelHint="Transparent"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        Background="{x:Null}">
+    <Window.Resources>
+        <CornerRadius x:Key="CornerRadius">8</CornerRadius>
+    </Window.Resources>
+    <Grid>
+        <Grid x:Name="BackgroundPanel" RowDefinitions="40,*" Margin="8" RenderTransform="scale(0.6)" Opacity="0">
+            <Grid.Transitions>
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.75">
+                        <TransformOperationsTransition.Easing>
+                            <SpringEasing Mass="1.5" Stiffness="100" Damping="20" InitialVelocity="0"/>
+                        </TransformOperationsTransition.Easing>
+                    </TransformOperationsTransition>
+                    <DoubleTransition Property="Opacity" Duration="0:0:.5"/>
+                </Transitions>
+            </Grid.Transitions>
+            <Border Grid.Row="0" Grid.RowSpan="2" CornerRadius="{StaticResource CornerRadius}"
+                    Background="Transparent" BoxShadow="0 0 12 -2 Black"/>
+            <Border Grid.Row="0" Grid.RowSpan="2" CornerRadius="{StaticResource CornerRadius}"
+                    ClipToBounds="True">
+                <v:RootPage/>
+            </Border>
+            <Border Grid.Row="0" Background="Transparent" PointerPressed="TitleBar_OnPointerPressed"/>
+        </Grid>
+    </Grid>
+</Window>
