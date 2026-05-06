@@ -1,0 +1,84 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c="using:FlowLauncher.Controls">
+
+    <Design.PreviewWith>
+        <c:FlowRadioButton />
+    </Design.PreviewWith>
+
+    <Style Selector="c|FlowRadioButton">
+        <!-- Set Defaults -->
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border CornerRadius="{TemplateBinding CornerRadius}" ClipToBounds="True"
+                        Margin="{TemplateBinding Margin}">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}" Opacity="0">
+                            <Border.Transitions><Transitions>
+                                <DoubleTransition Property="Opacity" Duration="0:0:.1"/>
+                            </Transitions></Border.Transitions>
+                            <Border.Styles>
+                                <Style Selector="c|FlowRadioButton:pointerover Border, c|FlowRadioButton:focus Border">
+                                    <Setter Property="Opacity" Value=".3"/>
+                                </Style>
+                                <Style Selector="c|FlowRadioButton:pressing Border, c|FlowRadioButton:checked Border">
+                                    <Setter Property="Opacity" Value="1"/>
+                                </Style>
+                            </Border.Styles>
+                        </Border>
+                        <Grid ColumnDefinitions="Auto,*" Margin="{TemplateBinding Padding}">
+                            <Grid.Styles>
+                                <Style Selector="c|FlowRadioButton:pressing, c|FlowRadioButton:checked">
+                                    <Style Selector="^ TextBlock">
+                                        <Setter Property="Foreground" Value="{TemplateBinding PressingForeground}"/>
+                                    </Style>
+                                    <Style Selector="^ PathIcon">
+                                        <Setter Property="Foreground" Value="{TemplateBinding PressingForeground}"/>
+                                    </Style>
+                                </Style>
+                            </Grid.Styles>
+                            <Grid.Resources>
+                                <Transitions x:Key="Transitions">
+                                    <BrushTransition Property="Foreground" Duration="0:0:.1"/>
+                                </Transitions>
+                            </Grid.Resources>
+                            <PathIcon Grid.Column="0" Data="{TemplateBinding Icon}"
+                                    IsVisible="{TemplateBinding Icon, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    Transitions="{StaticResource Transitions}"
+                                    Width="{TemplateBinding IconWidth}"
+                                    Height="{TemplateBinding IconWidth}"
+                                    Margin="{TemplateBinding IconMargin}"/>
+                            <TextBlock Grid.Column="1" Text="{TemplateBinding Text}"
+                                    IsVisible="{TemplateBinding Text, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Transitions="{StaticResource Transitions}"
+                                    FontSize="{TemplateBinding FontSize}"
+                                    FontWeight="{TemplateBinding FontWeight}"
+                                    FontFamily="{TemplateBinding FontFamily}"
+                                    FontFeatures="{TemplateBinding FontFeatures}"
+                                    FontStretch="{TemplateBinding FontStretch}"
+                                    FontStyle="{TemplateBinding FontStyle}"/>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Setter Property="Foreground" Value="{DynamicResource TextControlForeground}"/>
+        <Setter Property="PressingForeground" Value="{DynamicResource BackgroundColor}"/>
+        <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
+        <Setter Property="Padding" Value="12,6"/>
+        <Setter Property="IconMargin" Value="0,0,6,0"/>
+        <Setter Property="MinHeight" Value="20"/>
+        <Setter Property="MinWidth" Value="20"/>
+        <Setter Property="IconWidth" Value="14"/>
+        <Setter Property="CornerRadius" Value="33550336"/>
+    </Style>
+
+    <Style Selector="c|FlowRadioButton.IconOnly">
+        <Setter Property="Padding" Value="8"/>
+        <Setter Property="IconMargin" Value="0"/>
+    </Style>
+
+</Styles>

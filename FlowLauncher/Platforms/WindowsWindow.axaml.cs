@@ -1,5 +1,5 @@
 using Avalonia.Controls;
-using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using FlowNet.Core;
 
@@ -10,11 +10,6 @@ public partial class WindowsWindow : Window
     public WindowsWindow()
     {
         InitializeComponent();
-    }
-
-    private void TitleBar_OnPointerPressed(object? sender, PointerPressedEventArgs e)
-    {
-        BeginMoveDrag(e);
     }
 
     protected override void OnOpened(EventArgs e)
@@ -28,5 +23,15 @@ public partial class WindowsWindow : Window
     {
         base.OnClosed(e);
         Flow.InvokeTask("app:func:stop");
+    }
+
+    private void ButtonClose_OnClick(object? sender, RoutedEventArgs e)
+    {
+        Close();
+    }
+
+    private void ButtonMinimize_OnClick(object? sender, RoutedEventArgs e)
+    {
+        WindowState = WindowState.Minimized;
     }
 }

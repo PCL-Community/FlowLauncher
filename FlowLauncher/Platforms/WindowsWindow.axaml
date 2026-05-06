@@ -1,19 +1,18 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:v="clr-namespace:FlowLauncher.Views"
+        xmlns:c="clr-namespace:FlowLauncher.Controls"
         x:Class="FlowLauncher.Platforms.WindowsWindow"
         Icon="/Assets/logo.ico" Title="Flow Launcher"
+        MinWidth="900" MinHeight="540"
         Width="900" Height="540"
         WindowStartupLocation="CenterScreen"
         TransparencyLevelHint="Transparent"
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"
         Background="{x:Null}">
-    <Window.Resources>
-        <CornerRadius x:Key="CornerRadius">8</CornerRadius>
-    </Window.Resources>
     <Grid>
-        <Grid x:Name="BackgroundPanel" RowDefinitions="40,*" Margin="8" RenderTransform="scale(0.6)" Opacity="0">
+        <Grid x:Name="BackgroundPanel" RowDefinitions="Auto,*" Margin="8" RenderTransform="scale(0.6)" Opacity="0">
             <Grid.Transitions>
                 <Transitions>
                     <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.75">
@@ -24,13 +23,27 @@
                     <DoubleTransition Property="Opacity" Duration="0:0:.5"/>
                 </Transitions>
             </Grid.Transitions>
+            <Grid.Resources>
+                <CornerRadius x:Key="CornerRadius">8</CornerRadius>
+            </Grid.Resources>
             <Border Grid.Row="0" Grid.RowSpan="2" CornerRadius="{StaticResource CornerRadius}"
                     Background="Transparent" BoxShadow="0 0 12 -2 Black"/>
             <Border Grid.Row="0" Grid.RowSpan="2" CornerRadius="{StaticResource CornerRadius}"
                     ClipToBounds="True">
-                <v:RootPage/>
+                <v:RootPage ParentWindow="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
             </Border>
-            <Border Grid.Row="0" Background="Transparent" PointerPressed="TitleBar_OnPointerPressed"/>
+            <Border Grid.Row="0" Height="{StaticResource TopBarHeight}">
+                <Grid ColumnDefinitions="10,Auto,*,Auto,Auto,10" ColumnSpacing="5">
+                    <c:FlowRadioButton Grid.Column="1" Classes="TopBar" Text="Flow Launcher"
+                            IsChecked="True" IsEnabled="False"
+                            PressingForeground="Black" Background="#Bfff"
+                            FontSize="14" FontWeight="Medium"/>
+                    <c:FlowRadioButton Grid.Column="3" Classes="TopBar IconOnly"
+                            Click="ButtonMinimize_OnClick" Icon="{StaticResource IconMinimize}"/>
+                    <c:FlowRadioButton Grid.Column="4" Classes="TopBar IconOnly"
+                            Click="ButtonClose_OnClick" Icon="{StaticResource IconClose}"/>
+                </Grid>
+            </Border>
         </Grid>
     </Grid>
 </Window>

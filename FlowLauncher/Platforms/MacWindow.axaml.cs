@@ -7,7 +7,7 @@ public partial class MacWindow : Window
 {
     public MacWindow()
     {
-        Content = new RootPage();
+        Content = new RootPage { ParentWindow = this };
         InitializeComponent();
     }
 }
