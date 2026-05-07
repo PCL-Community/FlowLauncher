@@ -1,0 +1,39 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:FlowLauncher.ViewModels"
+        xmlns:c="clr-namespace:FlowLauncher.Controls"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="FlowLauncher.Views.RootLayout"
+        x:DataType="vm:RootLayoutViewModel">
+    <DockPanel>
+        <!-- top bar -->
+        <Border DockPanel.Dock="Top" Height="{StaticResource TopBarHeight}"
+                Background="{DynamicResource FlowAccent}" PointerPressed="TopBar_OnPointerPressed">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+                <StackPanel.Styles>
+                    <Style Selector="c|FlowRadioButton">
+                        <Setter Property="IsChecked">
+                            <MultiBinding Converter="{x:Static c:Converters.AllEqual}">
+                                <MultiBinding.Bindings>
+                                    <Binding Path="CurrentPage.Id"/>
+                                    <Binding RelativeSource="{RelativeSource Self}" Path="Tag"/>
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </Setter>
+                        <Setter Property="Command" Value="{Binding NavigateCommand}"/>
+                        <Setter Property="CommandParameter" Value="{Binding Tag, RelativeSource={RelativeSource Self}}"/>
+                    </Style>
+                </StackPanel.Styles>
+                <c:FlowRadioButton Classes="TopBar" Icon="{StaticResource IconPlay}" Text="主页" Tag="main"/>
+                <c:FlowRadioButton Classes="TopBar" Icon="{StaticResource IconDownload}" Text="安装" Tag="install"/>
+                <c:FlowRadioButton Classes="TopBar" Icon="{StaticResource IconTools}" Text="工具" Tag="tools"/>
+                <c:FlowRadioButton Classes="TopBar" Icon="{StaticResource IconSettings}" Text="设置" Tag="settings"/>
+            </StackPanel>
+        </Border>
+        <!-- main content -->
+        <Grid Background="{DynamicResource FlowBackground}" Opacity=".9">
+        </Grid>
+    </DockPanel>
+</UserControl>

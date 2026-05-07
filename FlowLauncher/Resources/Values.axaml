@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+
+    <sys:Double x:Key="TopBarHeight">50.0</sys:Double>
+    <SpringEasing x:Key="SpringEasing" Mass="1" Stiffness="100" Damping="15" InitialVelocity="0"/>
+
+</ResourceDictionary>

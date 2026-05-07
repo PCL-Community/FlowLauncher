@@ -1,10 +1,6 @@
-using System.Runtime.InteropServices;
 using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
-using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using FlowLauncher.Platforms;
 
 namespace FlowLauncher;
 
@@ -20,14 +16,6 @@ public class App : Application
         // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
         // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
         DisableAvaloniaDataAnnotationValidation();
-
-        // Construct main window
-        Window mainWindow;
-        if (OperatingSystem.IsWindows()) mainWindow = new WindowsWindow();
-        else if (OperatingSystem.IsMacOS()) mainWindow = new MacWindow();
-        else throw new NotSupportedException($"Platform not supported: {RuntimeInformation.OSDescription}");
-        mainWindow.Show();
-
         base.OnFrameworkInitializationCompleted();
     }
 

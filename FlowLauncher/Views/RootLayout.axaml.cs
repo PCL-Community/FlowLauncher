@@ -1,15 +1,13 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
-using FlowLauncher.Controls;
-using FlowLauncher.ViewModels;
 
 namespace FlowLauncher.Views;
 
-public partial class RootPage : UserControl
+public partial class RootLayout : UserControl
 {
     public static readonly StyledProperty<Window?> ParentWindowProperty =
-        AvaloniaProperty.Register<FlowRadioButton, Window?>(nameof(ParentWindow));
+        AvaloniaProperty.Register<RootLayout, Window?>(nameof(ParentWindow));
 
     public Window? ParentWindow
     {
@@ -17,9 +15,8 @@ public partial class RootPage : UserControl
         set => SetValue(ParentWindowProperty, value);
     }
 
-    public RootPage()
+    public RootLayout()
     {
-        DataContext = new RootPageViewModel();
         InitializeComponent();
     }
 

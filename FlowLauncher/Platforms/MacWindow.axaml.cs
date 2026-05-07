@@ -1,20 +1,16 @@
-using Avalonia.Controls;
 using FlowLauncher.Views;
-using FlowNet.Core;
 
 namespace FlowLauncher.Platforms;
 
-public partial class MacWindow : Window
+public sealed partial class MacWindow : BaseWindow
 {
     public MacWindow()
     {
-        Content = new RootPage { ParentWindow = this };
+        Content = new RootLayout
+        {
+            ParentWindow = this,
+            DataContext = RootLayout
+        };
         InitializeComponent();
-    }
-
-    protected override void OnClosed(EventArgs e)
-    {
-        base.OnClosed(e);
-        Flow.InvokeTask("app:func:stop");
     }
 }

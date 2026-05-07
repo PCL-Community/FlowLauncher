@@ -1,5 +1,8 @@
-﻿using Avalonia;
+﻿using System.Runtime.InteropServices;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Threading;
+using FlowLauncher.Platforms;
 using FlowNet.Core;
 
 namespace FlowLauncher;
@@ -16,9 +19,10 @@ static partial class Program
 #if DEBUG
         Flow.EnableTaskInvokingInfo = true;
 #endif
-        Task.Run(FlowInterops.Run).ContinueWith(task =>
+        Task.Run(async () =>
         {
-            if (task.Exception != null) throw task.Exception;
+            try { await FlowInterops.Run(); }
+            catch (Exception ex) { OnFatalException(ex); }
         });
         BuildAvaloniaApp().Start(AppMain, args);
     }
@@ -30,49 +34,64 @@ static partial class Program
             .WithInterFont()
             .LogToTrace();
 
-    private static readonly ManualResetEventSlim OnAvaloniaStart = new();
+    private static readonly TaskCompletionSource OnAvaloniaInitialized = new();
+    private static readonly ManualResetEventSlim OnCreateWindow = new();
     private static readonly TaskCompletionSource OnAvaloniaEnd = new();
     private static readonly ManualResetEventSlim OnProgramEnd = new();
     private static readonly TaskCompletionSource OnProgramExit = new();
     private static readonly CancellationTokenSource OnAvaloniaEndTokenSource = new();
 
-    private static void AppMain(Application app, string[] args)
+    private static void OnFatalException(Exception ex)
     {
-        OnAvaloniaStart.Wait();
+        Console.Error.WriteLine(ex);
+        Environment.Exit(1);
+    }
+
+    private static void AppMain(Application application, string[] args)
+    {
+        if (application is not App app) return;
+        Dispatcher.UIThread.UnhandledException += (_, e) => OnFatalException(e.Exception);
+        OnAvaloniaInitialized.SetResult();
+        OnCreateWindow.Wait();
+        CreateMainWindow();
         app.Run(OnAvaloniaEndTokenSource.Token);
         OnAvaloniaEnd.SetResult();
         OnProgramEnd.Wait();
         OnProgramExit.SetResult();
-        Environment.Exit(0);
+    }
+
+    private static void CreateMainWindow()
+    {
+        Window mainWindow;
+        if (OperatingSystem.IsWindows()) mainWindow = new WindowsWindow();
+        else if (OperatingSystem.IsMacOS()) mainWindow = new MacWindow();
+        else throw new NotSupportedException($"Platform not supported: {RuntimeInformation.OSDescription}");
+        mainWindow.Show();
     }
 
     [Flow.Task] [Flow.Run]
     [Flow.Task("load:before")] [Flow.Run(After = "app")]
-    [Flow.Task("load")] [Flow.Run(After = "app:load:before")]
     [Flow.Task("run:before")] [Flow.Run(After = "app:load")]
     [Flow.Task("stop:before")] [Flow.Run(After = "app:run")]
     [Flow.Task("stop")] [Flow.Run(After = "app:stop:before")]
     [Flow.Task("exit:before")] [Flow.Run(After = "app:stop")]
     [Flow.Task("exit")] [Flow.Run(After = "app:exit:before")]
-    private static Task _([Flow.InvokingInfo] FlowTaskInvokingInfo
-#if DEBUG
-        info
-#else
-        _
-#endif
-    ) {
+    private static Task _([Flow.InvokingInfo] FlowTaskInvokingInfo info) {
 #if DEBUG
         var (target, _, callers) = info;
-        Console.WriteLine($"Wildcard function '{target}' has been invoked by ['{string.Join("', '", callers)}']");
+        Console.WriteLine($"Wildcard '{target}' was invoked by ['{string.Join("', '", callers)}']");
 #endif
         return Task.CompletedTask;
     }
 
+    [Flow.Task] [Flow.Run(After = "app:load:before")]
+    private static Task Load() => OnAvaloniaInitialized.Task;
+
     [Flow.Task] [Flow.Run(After = "app:run:before")]
-    private static async Task Run()
+    private static Task Run()
     {
-        OnAvaloniaStart.Set();
-        await OnAvaloniaEnd.Task.ConfigureAwait(false);
+        OnCreateWindow.Set();
+        return OnAvaloniaEnd.Task;
     }
 
     private static bool _isStopping = false;
