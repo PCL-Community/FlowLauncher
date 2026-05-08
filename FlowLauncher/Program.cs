@@ -65,6 +65,7 @@ static partial class Program
         Window mainWindow;
         if (OperatingSystem.IsWindows()) mainWindow = new WindowsWindow();
         else if (OperatingSystem.IsMacOS()) mainWindow = new MacWindow();
+        else if (OperatingSystem.IsLinux()) mainWindow = new LinuxWindow();
         else throw new NotSupportedException($"Platform not supported: {RuntimeInformation.OSDescription}");
         mainWindow.Show();
     }
