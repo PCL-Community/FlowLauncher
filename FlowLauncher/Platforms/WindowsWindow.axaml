@@ -9,14 +9,10 @@
         Width="900" Height="540"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         WindowStartupLocation="CenterScreen"
-        TransparencyLevelHint="Transparent"
-        ExtendClientAreaToDecorationsHint="True"
+        SystemDecorations="BorderOnly"
         ExtendClientAreaChromeHints="NoChrome"
+        UseNativeWindowFrame="False"
         Background="{x:Null}">
-    <Window.Resources>
-        <Thickness x:Key="WindowMargin">8</Thickness>
-        <CornerRadius x:Key="WindowCornerRadius">8</CornerRadius>
-    </Window.Resources>
     <Grid x:Name="BackgroundPanel" Margin="{DynamicResource WindowMargin}"
             RenderTransform="scale(0.7)" Opacity="0">
         <Grid.Transitions>
@@ -27,15 +23,16 @@
             </Transitions>
         </Grid.Transitions>
         <Border CornerRadius="{DynamicResource WindowCornerRadius}"
-                Background="{DynamicResource FlowWindowBackground}"
+                IsVisible="{Binding !UseNativeWindowFrame}"
                 BoxShadow="0 0 12 -2 Black"/>
         <Border CornerRadius="{DynamicResource WindowCornerRadius}"
+                Background="{DynamicResource FlowWindowBackground}"
                 ClipToBounds="True">
             <Grid>
                 <v:RootLayout ParentWindow="{Binding RelativeSource={RelativeSource AncestorType=p:BaseWindow}}"
                         DataContext="{Binding RootLayout, RelativeSource={RelativeSource AncestorType=p:BaseWindow}}"/>
                 <Grid Height="{StaticResource TopBarHeight}" VerticalAlignment="Top"
-                        ColumnDefinitions="10,Auto,*,Auto,Auto,10" ColumnSpacing="5">
+                        ColumnDefinitions="10,Auto,*,Auto,10" ColumnSpacing="5">
                     <Grid.Styles>
                         <Style Selector="Grid.Nav">
                             <Setter Property="Transitions">
@@ -47,7 +44,7 @@
                     </Grid.Styles>
                     <Grid Grid.Column="1" Classes="Nav" x:Name="BackPanel" IsVisible="False"
                             ColumnDefinitions="Auto,Auto,*" ColumnSpacing="10"
-                            Opacity="{Binding RootLayout.HasLastPage, Converter={x:Static c:Converters.BooleanToOpacity}}">
+                            Opacity="{Binding RootLayout.HasLastPage, Converter={x:Static c:Converters.BoolToOpacity}}">
                         <Grid.RenderTransform>
                             <TranslateTransform X="-40" Y="0">
                                 <TranslateTransform.Transitions><Transitions>
@@ -61,11 +58,12 @@
                                 Icon="{StaticResource IconArrowLeft}" Click="BackButton_OnClick"
                                 IsEnabled="{Binding RootLayout.HasLastPage}"
                                 ToolTip.Tip="{Binding RootLayout.LastPage.Title}"/>
-                        <TextBlock Grid.Column="1" VerticalAlignment="Center"
-                                Text="{Binding RootLayout.CurrentPage.Title}" FontSize="16"/>
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="16"
+                                Foreground="{DynamicResource FlowTopBarForeground}"
+                                Text="{Binding RootLayout.CurrentPage.Title}"/>
                     </Grid>
                     <Grid Grid.Column="1" Classes="Nav" x:Name="TitlePanel" IsVisible="True"
-                            Opacity="{Binding !RootLayout.HasLastPage, Converter={x:Static c:Converters.BooleanToOpacity}}">
+                            Opacity="{Binding !RootLayout.HasLastPage, Converter={x:Static c:Converters.BoolToOpacity}}">
                         <Grid.RenderTransform>
                             <TranslateTransform X="0" Y="0">
                                 <TranslateTransform.Transitions><Transitions>
@@ -79,10 +77,11 @@
                                 PressingForeground="Black" Background="#BFFF"
                                 FontSize="14" FontWeight="Medium"/>
                     </Grid>
-                    <c:FlowRadioButton Grid.Column="3" Classes="TopBar IconOnly"
-                            Click="ButtonMinimize_OnClick" Icon="{StaticResource IconMinimize}"/>
-                    <c:FlowRadioButton Grid.Column="4" Classes="TopBar IconOnly"
-                            Click="ButtonClose_OnClick" Icon="{StaticResource IconClose}"/>
+                    <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="5">
+                        <c:FlowRadioButton Classes="TopBar IconOnly" Click="ButtonTestNativeWindow_OnClick" Icon="{StaticResource IconTools}"/>
+                        <c:FlowRadioButton Classes="TopBar IconOnly" Click="ButtonMinimize_OnClick" Icon="{StaticResource IconMinimize}"/>
+                        <c:FlowRadioButton Classes="TopBar IconOnly" Click="ButtonClose_OnClick" Icon="{StaticResource IconClose}"/>
+                    </StackPanel>
                 </Grid>
             </Grid>
         </Border>

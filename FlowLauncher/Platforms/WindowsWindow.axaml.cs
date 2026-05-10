@@ -1,3 +1,4 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
@@ -7,17 +8,66 @@ namespace FlowLauncher.Platforms;
 
 public sealed partial class WindowsWindow : BaseWindow
 {
+    public static readonly StyledProperty<bool> UseNativeWindowFrameProperty =
+        AvaloniaProperty.Register<WindowsWindow, bool>(nameof(UseNativeWindowFrame));
+
+    public bool UseNativeWindowFrame
+    {
+        get => GetValue(UseNativeWindowFrameProperty);
+        set => SetValue(UseNativeWindowFrameProperty, value);
+    }
+
+    static WindowsWindow()
+    {
+        UseNativeWindowFrameProperty.Changed.AddClassHandler<WindowsWindow, bool>((sender, e) =>
+        {
+            sender.UpdateNativeWindowFrameProps(e.NewValue.Value);
+        });
+    }
+
+    private void UpdateWindowStartupAnimationProps()
+    {
+        BackgroundPanel.RenderTransform = new ScaleTransform(1.0, 1.0);
+        BackgroundPanel.Opacity = 1;
+    }
+
+    private void UpdateNativeWindowFrameProps(bool useNativeWindowFrame)
+    {
+        if (useNativeWindowFrame)
+        {
+            Resources["WindowMargin"] = default(Thickness);
+            Resources["WindowCornerRadius"] = default(CornerRadius);
+            TransparencyLevelHint = [
+                WindowTransparencyLevel.Mica,
+                WindowTransparencyLevel.AcrylicBlur,
+                WindowTransparencyLevel.Blur,
+                WindowTransparencyLevel.Transparent
+            ];
+            ExtendClientAreaToDecorationsHint = false;
+        }
+        else
+        {
+            Resources["WindowMargin"] = new Thickness(8);
+            Resources["WindowCornerRadius"] = new CornerRadius(8);
+            TransparencyLevelHint = [
+                WindowTransparencyLevel.Transparent
+            ];
+            ExtendClientAreaToDecorationsHint = true;
+        }
+    }
+
     public WindowsWindow()
     {
+        UpdateNativeWindowFrameProps(false);
         InitializeComponent();
         RootLayout.RegisterPropertyChanged(nameof(RootLayout.HasLastPage), UpdateNavigation);
+        if (UseNativeWindowFrame) UpdateWindowStartupAnimationProps();
     }
 
     protected override void OnOpened(EventArgs e)
     {
         base.OnOpened(e);
-        BackgroundPanel.RenderTransform = new ScaleTransform(1.0, 1.0);
-        BackgroundPanel.Opacity = 1;
+        UpdateWindowStartupAnimationProps();
     }
 
     private void UpdateNavigation()
@@ -55,5 +105,10 @@ public sealed partial class WindowsWindow : BaseWindow
     private void BackButton_OnClick(object? sender, RoutedEventArgs e)
     {
         RootLayout.BackCommand.Execute(null);
+    }
+
+    private void ButtonTestNativeWindow_OnClick(object? sender, RoutedEventArgs e)
+    {
+        UseNativeWindowFrame = !UseNativeWindowFrame;
     }
 }

@@ -17,7 +17,7 @@
                 DataContext="{Binding RootLayout, RelativeSource={RelativeSource AncestorType=p:BaseWindow}}"/>
         <Grid VerticalAlignment="Top" Height="{StaticResource TopBarHeight}">
             <Grid Classes="Nav" x:Name="BackPanel" ColumnDefinitions="100,*,100" ColumnSpacing="10" Margin="8,4"
-                    Opacity="{Binding RootLayout.HasLastPage, Converter={x:Static c:Converters.BooleanToOpacity}}">
+                    Opacity="{Binding RootLayout.HasLastPage, Converter={x:Static c:Converters.BoolToOpacity}}">
                 <Grid.Styles>
                     <Style Selector="Grid.Nav">
                         <Setter Property="Transitions">

@@ -12,7 +12,7 @@
         <Grid DockPanel.Dock="Top" Height="{StaticResource TopBarHeight}"
                 Background="{DynamicResource FlowAccent}" PointerPressed="TopBar_OnPointerPressed">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10"
-                    Opacity="{Binding !HasLastPage, Converter={x:Static c:Converters.BooleanToOpacity}}">
+                    Opacity="{Binding !HasLastPage, Converter={x:Static c:Converters.BoolToOpacity}}">
                 <StackPanel.Transitions>
                     <Transitions>
                         <DoubleTransition Property="Opacity" Duration="0:0:.1"/>
