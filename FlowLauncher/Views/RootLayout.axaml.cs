@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Threading;
 using FlowLauncher.ViewModels;
 
 namespace FlowLauncher.Views;
@@ -24,9 +25,11 @@ public partial class RootLayout : UserControl
     private RootLayoutViewModel ViewModel => DataContext as RootLayoutViewModel
         ?? throw new InvalidOperationException("Layout view model not set or type mismatch.");
 
-    private void TopBar_OnPointerPressed(object? sender, PointerPressedEventArgs e)
+    protected override void OnDataContextChanged(EventArgs e)
     {
-        ParentWindow?.BeginMoveDrag(e);
+        base.OnDataContextChanged(e);
+        if (DataContext is not RootLayoutViewModel) return;
+        ViewModel.RegisterPropertyChanged(nameof(ViewModel.CurrentPage), OnPageChanged);
     }
 
     protected override void OnKeyUp(KeyEventArgs e)
@@ -36,5 +39,15 @@ public partial class RootLayout : UserControl
         {
             ViewModel.BackCommand.Execute(null);
         }
+    }
+
+    private void OnPageChanged() => Dispatcher.UIThread.Invoke(async () =>
+    {
+        // TODO
+    });
+
+    private void TopBar_OnPointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        ParentWindow?.BeginMoveDrag(e);
     }
 }

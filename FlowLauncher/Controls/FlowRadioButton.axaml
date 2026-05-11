@@ -19,10 +19,10 @@
                             </Transitions></Border.Transitions>
                             <Border.Styles>
                                 <Style Selector="c|FlowRadioButton:pointerover Border, c|FlowRadioButton:focus Border">
-                                    <Setter Property="Opacity" Value=".3"/>
+                                    <Setter Property="Opacity" Value="{TemplateBinding PointerOverBackgroundOpacity}"/>
                                 </Style>
                                 <Style Selector="c|FlowRadioButton:pressing Border, c|FlowRadioButton:checked Border">
-                                    <Setter Property="Opacity" Value="1"/>
+                                    <Setter Property="Opacity" Value="{TemplateBinding PressingBackgroundOpacity}"/>
                                 </Style>
                             </Border.Styles>
                         </Border>
@@ -66,8 +66,8 @@
             </ControlTemplate>
         </Setter>
         <Setter Property="Foreground" Value="{DynamicResource TextControlForeground}"/>
-        <Setter Property="PressingForeground" Value="{DynamicResource BackgroundColor}"/>
-        <Setter Property="Background" Value="{DynamicResource AccentColor}"/>
+        <Setter Property="PressingForeground" Value="{DynamicResource FlowBackground}"/>
+        <Setter Property="Background" Value="{DynamicResource FlowAccent}"/>
         <Setter Property="Padding" Value="12,6"/>
         <Setter Property="IconMargin" Value="0,0,6,0"/>
         <Setter Property="MinHeight" Value="20"/>
@@ -79,6 +79,15 @@
     <Style Selector="c|FlowRadioButton.IconOnly">
         <Setter Property="Padding" Value="8"/>
         <Setter Property="IconMargin" Value="0"/>
+    </Style>
+
+    <Style Selector="c|FlowRadioButton.MenuItem">
+        <Setter Property="Padding" Value="6"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="PressingBackgroundOpacity" Value=".45"/>
+        <Setter Property="PressingForeground" Value="{DynamicResource FlowTextForeground}"/>
+        <Setter Property="MinHeight" Value="30"/>
+        <Setter Property="MinWidth" Value="100"/>
     </Style>
 
 </Styles>

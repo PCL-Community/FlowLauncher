@@ -66,6 +66,24 @@ public class FlowRadioButton : TemplatedControl
         set => SetValue(IsCheckedProperty, value);
     }
 
+    public static readonly StyledProperty<double> PressingBackgroundOpacityProperty =
+        AvaloniaProperty.Register<FlowRadioButton, double>(nameof(PressingBackgroundOpacity), 1);
+
+    public double PressingBackgroundOpacity
+    {
+        get => GetValue(PressingBackgroundOpacityProperty);
+        set => SetValue(PressingBackgroundOpacityProperty, value);
+    }
+
+    public static readonly StyledProperty<double> PointerOverBackgroundOpacityProperty =
+        AvaloniaProperty.Register<FlowRadioButton, double>(nameof(PointerOverBackgroundOpacity), .3);
+
+    public double PointerOverBackgroundOpacity
+    {
+        get => GetValue(PointerOverBackgroundOpacityProperty);
+        set => SetValue(PointerOverBackgroundOpacityProperty, value);
+    }
+
     public static readonly StyledProperty<ICommand?> CommandProperty =
         AvaloniaProperty.Register<FlowRadioButton, ICommand?>(nameof(Command));
 

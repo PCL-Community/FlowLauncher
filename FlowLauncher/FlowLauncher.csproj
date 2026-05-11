@@ -34,6 +34,9 @@
             <Generator>PublicResXFileCodeGenerator</Generator>
             <LastGenOutput>Strings.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Strings.*.resx">
+            <DependentUpon>Strings.resx</DependentUpon>
+        </EmbeddedResource>
         <Compile Update="Resources\Strings.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>

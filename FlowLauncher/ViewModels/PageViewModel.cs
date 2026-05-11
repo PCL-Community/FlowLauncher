@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace FlowLauncher.ViewModels;
@@ -9,6 +10,9 @@ public abstract partial class PageViewModel(string id, string title = "Untitled"
 
     public string Title { get; protected set => SetProperty(ref field, value); } = title;
 
-    [ObservableProperty]
-    private Collection<MenuItemViewModel> _leftMenuItems = new ObservableCollection<MenuItemViewModel>();
+    [ObservableProperty] private Collection<MenuItemViewModel> _leftMenuItems = new ObservableCollection<MenuItemViewModel>();
+
+    [ObservableProperty] private Control? _leftExtraContent = null;
+
+    [ObservableProperty] private Control? _content = null;
 }
