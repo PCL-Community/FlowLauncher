@@ -112,7 +112,7 @@
                                                 </Grid.Tag>
                                                 <Grid.Styles>
                                                     <Style Selector="Grid[Tag=True]">
-                                                        <Style Selector="^ > c|FlowRadioButton">
+                                                        <Style Selector="^ > c|FlowMenuItem">
                                                             <Setter Property="IsChecked" Value="True"/>
                                                         </Style>
                                                         <Style Selector="^ > Decorator > Border">
@@ -127,11 +127,13 @@
                                                         </Style>
                                                     </Style>
                                                 </Grid.Styles>
-                                                <c:FlowRadioButton Classes="MenuItem" Height="36" Icon="{Binding Icon}"
+                                                <c:FlowMenuItem Height="36" Icon="{Binding Icon}"
                                                         Text="{Binding Title}" ToolTip.Tip="{Binding ToolTip}"
                                                         Tag="{Binding TargetContent}" Click="LeftMenuItem_OnClick"
                                                         Command="{Binding Command}" CommandParameter="{Binding CommandParameter}"
-                                                        Padding="14,0"/>
+                                                        Padding="14,0">
+                                                    <!-- TODO -->
+                                                </c:FlowMenuItem>
                                                 <Decorator Width="8" HorizontalAlignment="Left">
                                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center"
                                                             Background="{DynamicResource FlowAccent}"

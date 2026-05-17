@@ -2,5 +2,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <StyleInclude Source="FlowRadioButton.axaml"/>
+    <StyleInclude Source="FlowMenuItem.axaml"/>
 
 </Styles>

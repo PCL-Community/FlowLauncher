@@ -1,0 +1,32 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c="using:FlowLauncher.Controls">
+
+    <Design.PreviewWith>
+        <c:FlowMenuItem/>
+    </Design.PreviewWith>
+
+    <Style Selector="c|FlowMenuItem">
+        <!-- Set Defaults -->
+        <Setter Property="RightAreaTemplate">
+            <ControlTemplate x:DataType="c:FlowMenuItem">
+                <ItemsControl ItemsSource="{Binding ExtraControls}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ControlTemplate>
+        </Setter>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="BackgroundOpacity" Value="0"/>
+        <Setter Property="PointerOverBackgroundOpacity" Value=".15"/>
+        <Setter Property="PressingBackgroundOpacity" Value=".3"/>
+        <Setter Property="PressingForeground" Value="{DynamicResource FlowAccent}"/>
+        <Setter Property="MinHeight" Value="30"/>
+        <Setter Property="MinWidth" Value="100"/>
+        <Setter Property="TextAlignment" Value="Left"/>
+    </Style>
+
+</Styles>

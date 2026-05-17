@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Controls.Templates;
 using Avalonia.Layout;
 using Avalonia.Media;
 
@@ -6,6 +7,8 @@ namespace FlowLauncher.Controls;
 
 public class FlowRadioButton : FlowButton
 {
+    public FlowRadioButton Self => this;
+
     public static readonly StyledProperty<string> TextProperty =
         AvaloniaProperty.Register<FlowRadioButton, string>(nameof(Text));
 
@@ -85,5 +88,14 @@ public class FlowRadioButton : FlowButton
     {
         get => GetValue(TextAlignmentProperty);
         set => SetValue(TextAlignmentProperty, value);
+    }
+
+    public static readonly StyledProperty<IControlTemplate?> RightAreaTemplateProperty =
+        AvaloniaProperty.Register<FlowRadioButton, IControlTemplate?>(nameof(RightAreaTemplate));
+
+    public IControlTemplate? RightAreaTemplate
+    {
+        get => GetValue(RightAreaTemplateProperty);
+        set => SetValue(RightAreaTemplateProperty, value);
     }
 }
