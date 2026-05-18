@@ -58,15 +58,12 @@
         <Setter Property="MinWidth" Value="20"/>
         <Setter Property="IconWidth" Value="14"/>
         <Setter Property="CornerRadius" Value="33550336"/>
+        <Setter Property="BackgroundOpacity" Value=".1"/>
     </Style>
 
     <Style Selector="c|FlowButton.IconOnly">
         <Setter Property="Padding" Value="8"/>
         <Setter Property="IconMargin" Value="0"/>
-    </Style>
-
-    <Style Selector="c|FlowButton.Tinted">
-        <Setter Property="BackgroundOpacity" Value=".1"/>
     </Style>
 
 </Styles>

@@ -1,4 +1,5 @@
-﻿using Avalonia.Data.Converters;
+﻿using Avalonia;
+using Avalonia.Data.Converters;
 
 namespace FlowLauncher.Controls;
 
@@ -25,5 +26,10 @@ public static class Converters
         var list = parts.ToList();
         if (list is not [bool condition, _, _]) return null;
         return condition ? list[1] : list[2];
+    });
+
+    public static readonly FuncMultiValueConverter<object?, object?> FirstNotNull = new(static parts =>
+    {
+        return parts.FirstOrDefault(x => x != null && x is not UnsetValueType);
     });
 }

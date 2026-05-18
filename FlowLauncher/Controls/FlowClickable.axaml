@@ -19,10 +19,16 @@
                 <Border CornerRadius="{TemplateBinding CornerRadius}" ClipToBounds="True"
                         Margin="{TemplateBinding Margin}">
                     <Grid>
-                        <Border Background="{TemplateBinding Background}" Opacity="{TemplateBinding BackgroundOpacity}">
+                        <Border Background="{TemplateBinding Background}">
                             <Border.Transitions><Transitions>
                                 <DoubleTransition Property="Opacity" Duration="0:0:.1"/>
                             </Transitions></Border.Transitions>
+                            <Border.Opacity>
+                                <MultiBinding Converter="{x:Static c:Converters.FirstNotNull}">
+                                    <Binding Path="PriorityBackgroundOpacity" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                    <Binding Path="BackgroundOpacity" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                </MultiBinding>
+                            </Border.Opacity>
                         </Border>
                         <Decorator Padding="{TemplateBinding Padding}">
                             <TemplatedControl DataContext="{TemplateBinding}" Template="{TemplateBinding ContentTemplate}"/>
