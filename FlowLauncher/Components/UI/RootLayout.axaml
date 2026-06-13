@@ -131,8 +131,14 @@
                                                         Text="{Binding Title}" ToolTip.Tip="{Binding ToolTip}"
                                                         Tag="{Binding TargetContent}" Click="LeftMenuItem_OnClick"
                                                         Command="{Binding Command}" CommandParameter="{Binding CommandParameter}"
-                                                        Padding="14,0">
-                                                    <!-- TODO -->
+                                                        Padding="14,0,6,0">
+                                                    <!-- TODO fix visible problem -->
+                                                    <c:FlowIconButton Classes="PredicatedRotate" Icon="{StaticResource IconRefresh}"
+                                                            Command="{Binding RefreshCommand}" CommandParameter="{Binding RefreshCommandParameter}"
+                                                            IsVisible="{Binding RefreshCommand, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                                                    <c:FlowIconButton Classes="PredicatedRotateReversed" Icon="{StaticResource IconRestore}"
+                                                            Command="{Binding RestoreCommand}" CommandParameter="{Binding RestoreCommandParameter}"
+                                                            IsVisible="{Binding RestoreCommand, Converter={x:Static ObjectConverters.IsNotNull}}"/>
                                                 </c:FlowMenuItem>
                                                 <Decorator Width="8" HorizontalAlignment="Left">
                                                     <Border HorizontalAlignment="Center" VerticalAlignment="Center"

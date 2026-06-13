@@ -53,6 +53,15 @@ public abstract class FlowClickable : TemplatedControl
         set => SetValue(ContentTemplateProperty, value);
     }
 
+    public static readonly StyledProperty<PredicatedAnimation?> PredicatedAnimationProperty =
+        AvaloniaProperty.Register<FlowClickable, PredicatedAnimation?>(nameof(PredicatedAnimation));
+
+    public PredicatedAnimation? PredicatedAnimation
+    {
+        get => GetValue(PredicatedAnimationProperty);
+        set => SetValue(PredicatedAnimationProperty, value);
+    }
+
     public static readonly StyledProperty<ICommand?> CommandProperty =
         AvaloniaProperty.Register<FlowClickable, ICommand?>(nameof(Command));
 
@@ -113,20 +122,39 @@ public abstract class FlowClickable : TemplatedControl
         if (!(IsEnabled && e.Properties.IsLeftButtonPressed)) return;
         IsPressing = true;
         e.Handled = true;
+        PredicatedAnimation?.Predicate(this);
     }
 
     protected override void OnPointerReleased(PointerReleasedEventArgs e)
     {
+        var wasPredictiveAnimationActive = IsPressing;
+        var shouldCompleteAnimation = wasPredictiveAnimationActive && IsEnabled;
+
         base.OnPointerReleased(e);
-        if (!IsPressing) return;
-        IsPressing = false;
-        if (!IsEnabled) return;
-        OnClick();
+        if (IsPressing)
+        {
+            IsPressing = false;
+            e.Handled = true;
+            if (IsEnabled) OnClick();
+        }
+
+        if (shouldCompleteAnimation) PredicatedAnimation?.Continue(this);
+        else if (wasPredictiveAnimationActive) PredicatedAnimation?.Restore(this);
     }
 
     protected override void OnPointerExited(PointerEventArgs e)
     {
+        var shouldRestoreAnimation = IsPressing;
+
         base.OnPointerExited(e);
         IsPressing = false;
+
+        if (shouldRestoreAnimation) PredicatedAnimation?.Restore(this);
+    }
+
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnDetachedFromVisualTree(e);
+        PredicatedAnimation?.Cancel(this);
     }
 }

@@ -32,7 +32,7 @@
                             Transitions="{StaticResource Transitions}"
                             Width="{Binding IconWidth}"
                             Height="{Binding IconWidth}"
-                            Margin="{Binding IconMargin}"></PathIcon>
+                            Margin="{Binding IconMargin}"/>
                     <TextBlock Grid.Column="1" Text="{Binding Text}"
                             IsVisible="{Binding Text, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                             Foreground="{Binding $parent.Tag}"

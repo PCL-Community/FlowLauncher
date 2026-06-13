@@ -60,7 +60,7 @@
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2"/>
-        <PackageReference Include="FlowNet.Core" Version="0.1.4"/>
+        <PackageReference Include="FlowNet.Core" Version="0.2.0"/>
     </ItemGroup>
 
     <!-- Localization -->

@@ -23,6 +23,18 @@ public partial class MenuItemViewModel : ViewModelBase
 
     [ObservableProperty]
     public partial object? CommandParameter { get; set; } = null;
+
+    [ObservableProperty]
+    public partial ICommand? RefreshCommand { get; set; } = null;
+
+    [ObservableProperty]
+    public partial object? RefreshCommandParameter { get; set; } = null;
+
+    [ObservableProperty]
+    public partial ICommand? RestoreCommand { get; set; } = null;
+
+    [ObservableProperty]
+    public partial object? RestoreCommandParameter { get; set; } = null;
 }
 
 public partial class LeftMenuItemViewModel : MenuItemViewModel

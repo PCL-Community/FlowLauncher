@@ -16,12 +16,16 @@
         </Style>
         <Setter Property="RightAreaTemplate">
             <ControlTemplate x:DataType="c:FlowMenuItem">
-                <ItemsControl ItemsSource="{Binding ExtraControls}">
+                <ItemsControl ItemsSource="{Binding ExtraControls}" x:Name="ExtraItemsContainer">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"/>
+                            <StackPanel Orientation="Horizontal" DataContext="{Binding $parent[c:FlowMenuItem].DataContext}"
+                                    HorizontalAlignment="Right" VerticalAlignment="Center"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
+                    <ItemsControl.Transitions><Transitions>
+                        <DoubleTransition Property="Opacity" Duration="0:0:.1"/>
+                    </Transitions></ItemsControl.Transitions>
                 </ItemsControl>
             </ControlTemplate>
         </Setter>
@@ -31,6 +35,14 @@
         <Setter Property="MinHeight" Value="30"/>
         <Setter Property="MinWidth" Value="100"/>
         <Setter Property="TextAlignment" Value="Left"/>
+        <Style Selector="^ ItemsControl#ExtraItemsContainer">
+            <Setter Property="Opacity" Value="0"/>
+        </Style>
+        <Style Selector="^:pointerover, ^:focus, ^:pressing, ^:checked">
+            <Style Selector="^ ItemsControl#ExtraItemsContainer">
+                <Setter Property="Opacity" Value="1"/>
+            </Style>
+        </Style>
     </Style>
 
 </Styles>

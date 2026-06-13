@@ -1,16 +1,73 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="using:FlowLauncher.Controls">
+        xmlns:c="using:FlowLauncher.Controls">
+
     <Design.PreviewWith>
-        <controls:FlowIconButton />
+        <c:FlowIconButton/>
     </Design.PreviewWith>
 
-    <Style Selector="controls|FlowIconButton">
+    <Style Selector=":is(c|FlowIconButton)">
         <!-- Set Defaults -->
-        <Setter Property="Template">
-            <ControlTemplate>
-                <TextBlock Text="Templated Control" />
+        <Setter Property="ContentTemplate">
+            <ControlTemplate x:DataType="c:FlowIconButton">
+                <PathIcon x:Name="IconButtonPath" Data="{Binding Icon}"
+                        Foreground="{Binding Foreground}" Background="{Binding Background}"
+                        Height="{Binding IconWidth}" Width="{Binding IconWidth}"
+                        Margin="{Binding IconMargin}" CornerRadius="33550336"
+                        RenderTransformOrigin="50%,50%">
+                    <PathIcon.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="{Binding IconScale}" ScaleY="{Binding IconScale}"/>
+                            <RotateTransform Angle="{Binding IconRotationAngle}"/>
+                        </TransformGroup>
+                    </PathIcon.RenderTransform>
+                    <PathIcon.Transitions><Transitions>
+                        <DoubleTransition Property="Opacity" Duration="0:0:.1"/>
+                    </Transitions></PathIcon.Transitions>
+                </PathIcon>
             </ControlTemplate>
         </Setter>
+        <Setter Property="Foreground" Value="{DynamicResource FlowAccent}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="IconWidth" Value="16"/>
+        <Setter Property="IconMargin" Value="4"/>
+        <Setter Property="CornerRadius" Value="33550336"/>
+        <Style Selector="^:pointerover, ^:focus, ^:pressing, ^:checked">
+            <Setter Property="PriorityBackgroundOpacity" Value="0"/>
+        </Style>
+        <Style Selector="^[IsClickBubbleVisible=True]">
+            <Style Selector="^:pointerover, ^:focus">
+                <Setter Property="PriorityBackgroundOpacity" Value=".3"/>
+            </Style>
+            <Style Selector="^:pressing, ^:checked">
+                <Setter Property="PriorityBackgroundOpacity" Value=".4"/>
+            </Style>
+        </Style>
+        <Style Selector="^ PathIcon#IconButtonPath"><Setter Property="Opacity" Value=".7"/></Style>
+        <Style Selector="^:pointerover, ^:focus">
+            <Style Selector="^ PathIcon#IconButtonPath"><Setter Property="Opacity" Value="1"/></Style>
+        </Style>
+
+        <Style Selector="^.PredicatedRotate">
+            <Setter Property="PredicatedAnimation">
+                <c:PredicatedAnimation PredicateDuration="0:0:0.09" RestoreDuration="0:0:0.12" ContinueDuration="0:0:0.24">
+                    <c:PredicatedAnimation.PredicateFrame><Setter Property="IconRotationAngle" Value="30"/></c:PredicatedAnimation.PredicateFrame>
+                    <c:PredicatedAnimation.RestoreFrame><Setter Property="IconRotationAngle" Value="0"/></c:PredicatedAnimation.RestoreFrame>
+                    <c:PredicatedAnimation.ContinueFrame><Setter Property="IconRotationAngle" Value="360"/></c:PredicatedAnimation.ContinueFrame>
+                    <c:PredicatedAnimation.Completion><Setter Property="IconRotationAngle" Value="0"/></c:PredicatedAnimation.Completion>
+                </c:PredicatedAnimation>
+            </Setter>
+        </Style>
+
+        <Style Selector="^.PredicatedRotateReversed">
+            <Setter Property="PredicatedAnimation">
+                <c:PredicatedAnimation PredicateDuration="0:0:0.09" RestoreDuration="0:0:0.12" ContinueDuration="0:0:0.24">
+                    <c:PredicatedAnimation.PredicateFrame><Setter Property="IconRotationAngle" Value="-30"/></c:PredicatedAnimation.PredicateFrame>
+                    <c:PredicatedAnimation.RestoreFrame><Setter Property="IconRotationAngle" Value="0"/></c:PredicatedAnimation.RestoreFrame>
+                    <c:PredicatedAnimation.ContinueFrame><Setter Property="IconRotationAngle" Value="-360"/></c:PredicatedAnimation.ContinueFrame>
+                    <c:PredicatedAnimation.Completion><Setter Property="IconRotationAngle" Value="0"/></c:PredicatedAnimation.Completion>
+                </c:PredicatedAnimation>
+            </Setter>
+        </Style>
     </Style>
 </Styles>
