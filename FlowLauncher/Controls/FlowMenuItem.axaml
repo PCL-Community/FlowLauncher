@@ -16,10 +16,13 @@
         </Style>
         <Setter Property="RightAreaTemplate">
             <ControlTemplate x:DataType="c:FlowMenuItem">
-                <ItemsControl ItemsSource="{Binding ExtraControls}" x:Name="ExtraItemsContainer">
+                <ItemsControl ItemsSource="{Binding ExtraControls}" x:Name="ExtraItemsContainer"
+                        Margin="8,0,0,0" IsVisible="{Binding !!ExtraControls.Count}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" DataContext="{Binding $parent[c:FlowMenuItem].DataContext}"
+                            <!-- DataContext for each child is forwarded by FlowMenuItem in code-behind
+                                 (see FlowMenuItem.axaml.cs: SyncDataContextToExtraControls). -->
+                            <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Right" VerticalAlignment="Center"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>

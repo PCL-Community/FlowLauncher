@@ -36,6 +36,7 @@ public abstract partial class PageViewModel(string id, string title = "Untitled"
 
     protected static Geometry? Icon(string resourceKey)
     {
+        if (!resourceKey.StartsWith("Icon")) resourceKey = "Icon" + resourceKey;
         if (Application.Current?.Resources is not { } res) return null;
         if (!res.TryGetValue(resourceKey, out var value)) return null;
         return value as Geometry;

@@ -113,6 +113,9 @@ static partial class Program
     private static async Task EndProgramAsync()
     {
         Console.WriteLine("Exiting...");
+        // interrupt avalonia app
+        if (!OnAvaloniaEndTokenSource.IsCancellationRequested)
+            await OnAvaloniaEndTokenSource.CancelAsync().ConfigureAwait(false);
         OnProgramEnd.Set();
         await OnProgramExit.Task.WaitAsync(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
         if (OnProgramExit.Task.IsCompleted) return;

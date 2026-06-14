@@ -1,4 +1,5 @@
-﻿using FlowLauncher.Components.UI;
+﻿using CommunityToolkit.Mvvm.Input;
+using FlowLauncher.Components.UI;
 using FlowLauncher.Resources;
 using FlowLauncher.Views;
 
@@ -15,20 +16,21 @@ public partial class ToolsPageViewModel : PageViewModel<ToolsPage>
             },
             new LeftMenuItemViewModel
             {
-                Title = "MainLoooooooooooooooog",
-                Icon = Icon("IconSettings"),
-                TargetContent = Content
+                Title = "Settings",
+                Icon = Icon("Settings"),
+                TargetContent = Content,
+                RefreshCommand = new RelayCommand(() => {})
             },
             new LeftMenuItemViewModel
             {
                 Title = "456",
-                Icon = Icon("IconSettings"),
+                Icon = Icon("Settings"),
                 TargetContent = PageContent<MainPage>()
             },
             new LeftMenuItemViewModel
             {
                 Title = "789",
-                Icon = Icon("IconSettings")
+                Icon = Icon("Refresh")
             },
         ];
     }

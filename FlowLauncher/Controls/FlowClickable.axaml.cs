@@ -102,7 +102,7 @@ public abstract class FlowClickable : TemplatedControl
     }
 
     public static readonly RoutedEvent<RoutedEventArgs> ClickEvent =
-        RoutedEvent.Register<FlowClickable, RoutedEventArgs>(nameof(Click), RoutingStrategies.Bubble);
+        RoutedEvent.Register<FlowClickable, RoutedEventArgs>(nameof(Click), RoutingStrategies.Direct);
 
     public event EventHandler<RoutedEventArgs>? Click
     {
