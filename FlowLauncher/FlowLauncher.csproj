@@ -61,6 +61,7 @@
         </PackageReference>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2"/>
         <PackageReference Include="FlowNet.Core" Version="0.2.0"/>
+        <PackageReference Include="CmlLib.Core" Version="4.0.6" />
     </ItemGroup>
 
     <!-- Localization -->
