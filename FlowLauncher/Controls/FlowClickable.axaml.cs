@@ -110,6 +110,10 @@ public abstract class FlowClickable : TemplatedControl
         remove => RemoveHandler(ClickEvent, value);
     }
 
+    public void InjectPointerPressed(PointerPressedEventArgs e) => OnPointerPressed(e);
+    public void InjectPointerReleased(PointerReleasedEventArgs e) => OnPointerReleased(e);
+    public void InjectPointerExited(PointerEventArgs e) => OnPointerExited(e);
+
     protected virtual void OnClick()
     {
         RaiseEvent(new RoutedEventArgs { RoutedEvent = ClickEvent });

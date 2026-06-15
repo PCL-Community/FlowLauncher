@@ -1,0 +1,47 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c="using:FlowLauncher.Controls">
+
+    <Design.PreviewWith>
+        <c:FlowTitledCard/>
+    </Design.PreviewWith>
+
+    <Style Selector=":is(c|FlowTitledCard)">
+        <!-- Set Defaults -->
+        <Setter Property="DecorationTemplate">
+            <ControlTemplate x:DataType="c:FlowTitledCard">
+                <Grid>
+                    <Grid ColumnDefinitions="Auto,*,Auto" Background="Transparent"
+                            ColumnSpacing="12" Margin="12">
+                        <TextBlock Grid.Column="0" Text="{Binding Title}"
+                                Foreground="{Binding TitleBarForeground}" VerticalAlignment="Center">
+                            <TextBlock.Transitions>
+                                <Transitions>
+                                    <BrushTransition Property="Foreground" Duration="0:0:.1" />
+                                </Transitions>
+                            </TextBlock.Transitions>
+                        </TextBlock>
+                        <c:FlowIconButton x:Name="TitleBarPullDownButton" Grid.Column="2"
+                                Icon="{StaticResource IconPullDown}" IsVisible="{Binding CanFold}"
+                                Foreground="{Binding TitleBarForeground}" VerticalAlignment="Center"
+                                IconWidth="10" IsChecked="True" Command="{Binding ClickTitleBarCommand}">
+                            <c:FlowIconButton.Transitions>
+                                <Transitions>
+                                    <BrushTransition Property="Foreground" Duration="0:0:.1" />
+                                </Transitions>
+                            </c:FlowIconButton.Transitions>
+                        </c:FlowIconButton>
+                    </Grid>
+                    <Border x:Name="TitleBarArea" Background="Transparent"/>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+        <Setter Property="DecorationVerticalAlignment" Value="Top"/>
+        <Setter Property="ContentMargin" Value="16,40,16,16"/>
+        <Setter Property="TitleBarForeground" Value="{DynamicResource FlowTextPrimary}"/>
+        <Style Selector="^:pointerover">
+            <Setter Property="TitleBarForeground" Value="{DynamicResource FlowAccent}"/>
+        </Style>
+    </Style>
+
+</Styles>

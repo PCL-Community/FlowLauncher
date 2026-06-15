@@ -61,6 +61,8 @@ public partial class RootLayoutViewModel : ViewModelBase
 
     private void _Navigate(string? pageId, bool forward = true)
     {
+        if (CurrentPagePreview.Id == pageId) return; // prevent loop
+        // get navigate target
         PageViewModel? page;
         if (pageId == null)
         {
@@ -72,6 +74,7 @@ public partial class RootLayoutViewModel : ViewModelBase
             if (forward) _BackStack.Push(CurrentPagePreview);
             else _BackStack.Clear();
         }
+        // navigate & play animation
         Dispatcher.UIThread.Invoke(async () =>
         {
             CurrentPagePreview = page;

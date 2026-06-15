@@ -32,8 +32,10 @@
         <Setter Property="IconWidth" Value="16"/>
         <Setter Property="IconMargin" Value="4"/>
         <Setter Property="CornerRadius" Value="33550336"/>
+        <Style Selector="^ PathIcon#IconButtonPath"><Setter Property="Opacity" Value=".7"/></Style>
         <Style Selector="^:pointerover, ^:focus, ^:pressing, ^:checked">
             <Setter Property="PriorityBackgroundOpacity" Value="0"/>
+            <Style Selector="^ PathIcon#IconButtonPath"><Setter Property="Opacity" Value="1"/></Style>
         </Style>
         <Style Selector="^[IsClickBubbleVisible=True]">
             <Style Selector="^:pointerover, ^:focus">
@@ -42,10 +44,6 @@
             <Style Selector="^:pressing, ^:checked">
                 <Setter Property="PriorityBackgroundOpacity" Value=".4"/>
             </Style>
-        </Style>
-        <Style Selector="^ PathIcon#IconButtonPath"><Setter Property="Opacity" Value=".7"/></Style>
-        <Style Selector="^:pointerover, ^:focus">
-            <Style Selector="^ PathIcon#IconButtonPath"><Setter Property="Opacity" Value="1"/></Style>
         </Style>
 
         <Style Selector="^.PredicatedRotate">

@@ -56,5 +56,8 @@
         A6,6 0 0,1 12,18V15L8,19L12,23V20A8,8 0 0,0 20,12
         C20,10.43 19.54,8.97 18.76,7.74Z
     </Geometry>
+    <Geometry x:Key="IconPullDown">
+        M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z
+    </Geometry>
 
 </ResourceDictionary>

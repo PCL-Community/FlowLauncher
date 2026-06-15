@@ -5,5 +5,7 @@
     <StyleInclude Source="FlowButton.axaml"/>
     <StyleInclude Source="FlowMenuItem.axaml"/>
     <StyleInclude Source="FlowIconButton.axaml"/>
+    <StyleInclude Source="FlowCard.axaml"/>
+    <StyleInclude Source="FlowTitledCard.axaml"/>
 
 </Styles>

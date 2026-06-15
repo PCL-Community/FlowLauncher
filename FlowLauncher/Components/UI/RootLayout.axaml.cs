@@ -35,15 +35,6 @@ public partial class RootLayout : UserControl
         ViewModel.RegisterPropertyChanged(nameof(ViewModel.CurrentPage), OnPageChanged);
     }
 
-    protected override void OnKeyUp(KeyEventArgs e)
-    {
-        base.OnKeyUp(e);
-        if (e.Key == Key.Escape)
-        {
-            ViewModel.BackCommand.Execute(null);
-        }
-    }
-
     protected override void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);

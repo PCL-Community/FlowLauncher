@@ -30,7 +30,7 @@
                                 </MultiBinding>
                             </Setter>
                             <Setter Property="Command" Value="{Binding NavigateCommand}"/>
-                            <Setter Property="CommandParameter" Value="{Binding Tag, RelativeSource={RelativeSource Self}}"/>
+                            <Setter Property="CommandParameter" Value="{Binding $self.Tag}"/>
                         </Style>
                     </StackPanel.Styles>
                     <c:FlowButton Classes="TopBar" Icon="{StaticResource IconPlay}"
