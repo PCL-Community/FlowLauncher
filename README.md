@@ -1,4 +1,4 @@
-<center>
+<div align="center">
 
 <img src="https://github.com/PCL-Community/FlowLauncher/raw/refs/heads/main/FlowLauncher/Assets/logo.ico" alt="Logo" width="100">
 
@@ -9,7 +9,7 @@
 [PCL CE](https://github.com/PCL-Community/PCL-CE) |
 [社区主页](https://github.com/PCL-Community)
 
-</center>
+</div>
 
 基于 .NET & [CmlLib](https://github.com/CmlLib) 的跨平台 Minecraft 启动器，使用 Avalonia UI 构建用户界面，提供接近 PCL / PCL CE 的 UI 体验与更加统一易用的设计。
 
