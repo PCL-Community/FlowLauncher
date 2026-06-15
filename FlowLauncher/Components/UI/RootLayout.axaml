@@ -46,6 +46,7 @@
             </Grid>
             <!-- left menu -->
             <Grid DockPanel.Dock="Left" x:Name="LeftPanel" ColumnDefinitions="Auto,5">
+                <!-- background & shadow -->
                 <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
                     <StackPanel.Tag>
                         <MultiBinding Converter="{x:Static BoolConverters.Or}">
@@ -78,8 +79,10 @@
                         </Border.Background>
                     </Border>
                 </StackPanel>
+                <!-- content -->
                 <Grid Grid.Column="0" x:Name="LeftMenuPanel" RowDefinitions="Auto,*"
                         HorizontalAlignment="Left" ClipToBounds="True">
+                    <!-- menu items -->
                     <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
                             IsVisible="{Binding !!CurrentPage.LeftMenuItems.Count}"
                             Opacity="{Binding _LeftMenuControl_Opacity}">
@@ -167,6 +170,7 @@
                             </DataTemplate></ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </ScrollViewer>
+                    <!-- extra content -->
                     <Decorator Grid.Row="1" Margin="{StaticResource PanelContentMargin}" Opacity="{Binding _LeftExtraControl_Opacity}"
                             VerticalAlignment="{Binding CurrentPage.LeftExtraContentAlignment}"
                             IsVisible="{Binding CurrentPage.LeftExtraContent.ViewControl, FallbackValue={x:Null}, Converter={x:Static ObjectConverters.IsNotNull}}"
