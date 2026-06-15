@@ -17,20 +17,20 @@ public partial class ToolsPageViewModel : PageViewModel<ToolsPage>
             new LeftMenuItemViewModel
             {
                 Title = "Settings",
-                Icon = Icon("Settings"),
+                Icon = ReferIcon("Settings"),
                 TargetContent = Content,
                 RefreshCommand = new RelayCommand(() => {})
             },
             new LeftMenuItemViewModel
             {
                 Title = "456",
-                Icon = Icon("Settings"),
-                TargetContent = PageContent<MainPage>()
+                Icon = ReferIcon("Settings"),
+                TargetContent = ReferContent<MainPage>()
             },
             new LeftMenuItemViewModel
             {
                 Title = "789",
-                Icon = Icon("Refresh")
+                Icon = ReferIcon("Refresh")
             },
         ];
     }

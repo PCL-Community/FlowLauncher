@@ -18,7 +18,7 @@ public abstract partial class PageViewModel(string id, string title = "Untitled"
     [ObservableProperty]
     public partial Collection<LeftMenuItemViewModel> LeftMenuItems { get; set; } = new ObservableCollection<LeftMenuItemViewModel>();
 
-    public PageContentViewModel? LeftExtraContent
+    public ContentViewModel? LeftExtraContent
     {
         get;
         init
@@ -29,12 +29,12 @@ public abstract partial class PageViewModel(string id, string title = "Untitled"
     } = null;
 
     [ObservableProperty]
-    public partial PageContentViewModel? Content { get; set; } = null;
+    public partial ContentViewModel? Content { get; set; } = null;
 
     [ObservableProperty]
     public partial VerticalAlignment LeftExtraContentAlignment { get; set; } = VerticalAlignment.Stretch;
 
-    protected static Geometry? Icon(string resourceKey)
+    protected static Geometry? ReferIcon(string resourceKey)
     {
         if (!resourceKey.StartsWith("Icon")) resourceKey = "Icon" + resourceKey;
         if (Application.Current?.Resources is not { } res) return null;
@@ -42,46 +42,46 @@ public abstract partial class PageViewModel(string id, string title = "Untitled"
         return value as Geometry;
     }
 
-    protected PageContentViewModel<TThisClass> PageContent<TThisClass, TPageContent>()
+    protected ContentViewModel<TThisClass> ReferContent<TThisClass, TContentViewModel>()
         where TThisClass : PageViewModel
-        where TPageContent : PageContentViewModel<TThisClass>, new()
+        where TContentViewModel : ContentViewModel<TThisClass>, new()
     {
-        return this is TThisClass page ? new TPageContent { Page = page }
+        return this is TThisClass page ? new TContentViewModel { Page = page }
             : throw new InvalidCastException("Type mismatch: please use current class as the first type parameter.");
     }
 
-    protected PageContentViewModel PageContent<TPageContent>(bool bypassCache = false)
-        where TPageContent : PageContentView, new()
+    protected ContentViewModel ReferContent<TContent>(bool bypassCache = false)
+        where TContent : ContentView, new()
     {
-        var view = PageContentView.GetViewCacheOrCreate<TPageContent>(bypassCache);
+        var view = ContentView.GetViewCacheOrCreate<TContent>(bypassCache);
         return new SimplePageContentViewModel(view, this);
     }
 }
 
 public abstract class PageViewModel<TThisClass, TMainContent> : PageViewModel
     where TThisClass : PageViewModel
-    where TMainContent : PageContentViewModel<TThisClass>, new()
+    where TMainContent : ContentViewModel<TThisClass>, new()
 {
     protected PageViewModel(string id, string title = "Untitled") : base(id, title)
     {
-        Content = PageContent<TThisClass, TMainContent>();
+        Content = ReferContent<TThisClass, TMainContent>();
     }
 }
 
 public abstract class PageViewModel<TMainContent> : PageViewModel
-    where TMainContent : PageContentView, new()
+    where TMainContent : ContentView, new()
 {
     protected PageViewModel(string id, string title = "Untitled") : base(id, title)
     {
-        Content = PageContent<TMainContent>();
+        Content = ReferContent<TMainContent>();
     }
 }
 
-file class SimplePageContentViewModel : PageContentViewModel
+file class SimplePageContentViewModel : ContentViewModel
 {
-    public override PageContentView ViewControl { get; }
+    public override ContentView ViewControl { get; }
 
-    public SimplePageContentViewModel(PageContentView view, PageViewModel viewModel)
+    public SimplePageContentViewModel(ContentView view, PageViewModel viewModel)
     {
         ViewControl = view;
         ViewModel = viewModel;

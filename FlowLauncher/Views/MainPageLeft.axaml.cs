@@ -5,7 +5,7 @@ using FlowLauncher.Components.UI;
 
 namespace FlowLauncher.Views;
 
-public partial class MainPageLeft : PageContentView
+public partial class MainPageLeft : ContentView
 {
     public MainPageLeft()
     {

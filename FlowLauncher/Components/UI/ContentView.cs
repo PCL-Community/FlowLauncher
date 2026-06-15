@@ -2,12 +2,12 @@
 
 namespace FlowLauncher.Components.UI;
 
-public abstract class PageContentView : UserControl
+public abstract class ContentView : UserControl
 {
-    private static readonly Dictionary<Type, PageContentView> _ViewCache = [];
+    private static readonly Dictionary<Type, ContentView> _ViewCache = [];
 
-    internal static PageContentView GetViewCacheOrCreate<TContent>(bool bypassCache = false)
-        where TContent : PageContentView, new()
+    internal static ContentView GetViewCacheOrCreate<TContent>(bool bypassCache = false)
+        where TContent : ContentView, new()
     {
         if (bypassCache) return new TContent();
         var type = typeof(TContent);

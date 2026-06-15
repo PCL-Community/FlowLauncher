@@ -37,7 +37,7 @@ public partial class RootLayoutViewModel : ViewModelBase
         }
     }
 
-    public PageContentViewModel? CurrentPageContentPreview
+    public ContentViewModel? CurrentPageContentPreview
     {
         get => field ??= CurrentPagePreview.Content;
         private set => SetProperty(ref field, value);
@@ -107,7 +107,7 @@ public partial class RootLayoutViewModel : ViewModelBase
     private void Forward(string pageId) => _Navigate(pageId);
 
     [RelayCommand]
-    private void SwitchContent(PageContentViewModel target)
+    private void SwitchContent(ContentViewModel target)
     {
         if (CurrentPagePreview.Content == target) return;
         Dispatcher.UIThread.Invoke(async () =>

@@ -8,6 +8,6 @@ public partial class MainPageViewModel : PageViewModel<MainPage>
 {
     public MainPageViewModel() : base("main", Strings.PageTitleMain)
     {
-        LeftExtraContent = PageContent<MainPageLeft>();
+        LeftExtraContent = ReferContent<MainPageLeft>();
     }
 }

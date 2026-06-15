@@ -76,7 +76,7 @@ public partial class RootLayout : UserControl
 
     private void LeftMenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (sender is not FlowButton { Tag: PageContentViewModel targetContent }) return;
+        if (sender is not FlowButton { Tag: ContentViewModel targetContent }) return;
         ViewModel.SwitchContentCommand.Execute(targetContent);
     }
 }

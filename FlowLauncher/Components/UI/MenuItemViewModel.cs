@@ -40,5 +40,9 @@ public partial class MenuItemViewModel : ViewModelBase
 public partial class LeftMenuItemViewModel : MenuItemViewModel
 {
     [ObservableProperty]
-    public partial PageContentViewModel? TargetContent { get; set; } = null;
+    public partial ContentViewModel? TargetContent { get; set; } = null;
 }
+
+public class MenuTitleViewModel : MenuItemViewModel;
+
+public class LeftMenuTitleViewModel : LeftMenuItemViewModel;

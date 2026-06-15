@@ -2,7 +2,7 @@
 
 namespace FlowLauncher.Views;
 
-public partial class ToolsPage : PageContentView
+public partial class ToolsPage : ContentView
 {
     public ToolsPage()
     {
