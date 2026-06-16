@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Avalonia;
 using Avalonia.Animation;
+using Avalonia.Animation.Easings;
 using Avalonia.Collections;
 using Avalonia.Styling;
 
@@ -35,6 +36,33 @@ public class PredicatedAnimation : AvaloniaObject
     {
         get => GetValue(ContinueDurationProperty);
         set => SetValue(ContinueDurationProperty, value);
+    }
+
+    public static readonly StyledProperty<Easing?> PredicateEasingProperty =
+        AvaloniaProperty.Register<PredicatedAnimation, Easing?>(nameof(PredicateEasing));
+
+    public Easing? PredicateEasing
+    {
+        get => GetValue(PredicateEasingProperty);
+        set => SetValue(PredicateEasingProperty, value);
+    }
+
+    public static readonly StyledProperty<Easing?> RestoreEasingProperty =
+        AvaloniaProperty.Register<PredicatedAnimation, Easing?>(nameof(RestoreEasing));
+
+    public Easing? RestoreEasing
+    {
+        get => GetValue(RestoreEasingProperty);
+        set => SetValue(RestoreEasingProperty, value);
+    }
+
+    public static readonly StyledProperty<Easing?> ContinueEasingProperty =
+        AvaloniaProperty.Register<PredicatedAnimation, Easing?>(nameof(ContinueEasing));
+
+    public Easing? ContinueEasing
+    {
+        get => GetValue(ContinueEasingProperty);
+        set => SetValue(ContinueEasingProperty, value);
     }
 
     public KeyFrames PredicateFrames { get; } = [];
@@ -74,7 +102,7 @@ public class PredicatedAnimation : AvaloniaObject
         }
     }
 
-    private async Task Run(Animatable target, KeyFrames keyFrames, TimeSpan duration, bool applyCompletionSetters = false)
+    private async Task Run(Animatable target, KeyFrames keyFrames, TimeSpan duration, Easing? easing, bool applyCompletionSetters = false)
     {
         Cancel(target);
         var state = _states.GetOrCreateValue(target);
@@ -88,6 +116,7 @@ public class PredicatedAnimation : AvaloniaObject
                 Duration = duration,
                 FillMode = FillMode.Forward
             };
+            if (easing is not null) animation.Easing = easing;
 
             foreach (var keyFrame in keyFrames) animation.Children.Add(keyFrame);
             await animation.RunAsync(target, tokenSource.Token);
@@ -105,9 +134,9 @@ public class PredicatedAnimation : AvaloniaObject
         }
     }
 
-    public Task Predicate(Animatable target) => Run(target, PredicateFrames, PredicateDuration);
-    public Task Restore(Animatable target) => Run(target, RestoreFrames, RestoreDuration);
-    public Task Continue(Animatable target) => Run(target, ContinueFrames, ContinueDuration, true);
+    public Task Predicate(Animatable target) => Run(target, PredicateFrames, PredicateDuration, PredicateEasing);
+    public Task Restore(Animatable target) => Run(target, RestoreFrames, RestoreDuration, RestoreEasing);
+    public Task Continue(Animatable target) => Run(target, ContinueFrames, ContinueDuration, ContinueEasing, true);
 
     private sealed class AnimationState
     {
