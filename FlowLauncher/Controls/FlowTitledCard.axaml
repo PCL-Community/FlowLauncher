@@ -6,13 +6,12 @@
         <c:FlowTitledCard/>
     </Design.PreviewWith>
 
-    <Style Selector=":is(c|FlowTitledCard)">
+    <Style Selector="c|FlowTitledCard">
         <!-- Set Defaults -->
         <Setter Property="DecorationTemplate">
             <ControlTemplate x:DataType="c:FlowTitledCard">
                 <Grid>
-                    <Grid ColumnDefinitions="Auto,*,Auto" Background="Transparent"
-                            ColumnSpacing="12" Margin="12">
+                    <Grid ColumnDefinitions="Auto,*,Auto" Background="Transparent" Margin="12,0">
                         <TextBlock Grid.Column="0" Text="{Binding Title}"
                                 Foreground="{Binding TitleBarForeground}" VerticalAlignment="Center">
                             <TextBlock.Transitions>
@@ -30,13 +29,36 @@
                                     <BrushTransition Property="Foreground" Duration="0:0:.1" />
                                 </Transitions>
                             </c:FlowIconButton.Transitions>
+                            <c:FlowIconButton.Styles>
+                                <Style Selector="c|FlowIconButton">
+                                    <Setter Property="PredicatedAnimation">
+                                        <c:PredicatedAnimation PredicateDuration="0:0:.07" RestoreDuration="0:0:.08" ContinueDuration="0:0:.1">
+                                            <c:PredicatedAnimation.PredicateFrame><Setter Property="IconRotationAngle" Value="30"/></c:PredicatedAnimation.PredicateFrame>
+                                            <c:PredicatedAnimation.RestoreFrame><Setter Property="IconRotationAngle" Value="0"/></c:PredicatedAnimation.RestoreFrame>
+                                            <c:PredicatedAnimation.ContinueFrame><Setter Property="IconRotationAngle" Value="180"/></c:PredicatedAnimation.ContinueFrame>
+                                        </c:PredicatedAnimation>
+                                    </Setter>
+                                </Style>
+                                <Style Selector="c|FlowTitledCard[IsFolded=False] c|FlowIconButton">
+                                    <Setter Property="PredicatedAnimation">
+                                        <c:PredicatedAnimation PredicateDuration="0:0:.07" RestoreDuration="0:0:.08" ContinueDuration="0:0:.1">
+                                            <c:PredicatedAnimation.PredicateFrame><Setter Property="IconRotationAngle" Value="210"/></c:PredicatedAnimation.PredicateFrame>
+                                            <c:PredicatedAnimation.RestoreFrame><Setter Property="IconRotationAngle" Value="180"/></c:PredicatedAnimation.RestoreFrame>
+                                            <c:PredicatedAnimation.ContinueFrame><Setter Property="IconRotationAngle" Value="360"/></c:PredicatedAnimation.ContinueFrame>
+                                            <c:PredicatedAnimation.Completion><Setter Property="IconRotationAngle" Value="0"/></c:PredicatedAnimation.Completion>
+                                        </c:PredicatedAnimation>
+                                    </Setter>
+                                </Style>
+                            </c:FlowIconButton.Styles>
                         </c:FlowIconButton>
                     </Grid>
-                    <Border x:Name="TitleBarArea" Background="Transparent"/>
+                    <Border x:Name="TitleBarArea" Background="Transparent" Height="40"/>
                 </Grid>
             </ControlTemplate>
         </Setter>
         <Setter Property="DecorationVerticalAlignment" Value="Top"/>
+        <!-- Default to content-driven height: don't stretch vertically in the parent layout. -->
+        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="ContentMargin" Value="16,40,16,16"/>
         <Setter Property="TitleBarForeground" Value="{DynamicResource FlowTextPrimary}"/>
         <Style Selector="^:pointerover">

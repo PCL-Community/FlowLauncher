@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Animation.Easings;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Styling;
@@ -9,12 +10,13 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace FlowLauncher.Controls;
 
-public partial class FlowTitledCard : FlowCard
+public sealed partial class FlowTitledCard : FlowCard
 {
     private const double DefaultTitleBarHeight = 40;
     private const double PressOffset = 10;
 
     private Border? _titleBarArea;
+    private FlowIconButton? _titleBarPullDownButton;
     private PredicatedAnimation? _foldAnimation;
     private Setter? _predicateHeightSetter;
     private Setter? _restoreHeightSetter;
@@ -27,6 +29,10 @@ public partial class FlowTitledCard : FlowCard
     private double _userHeightSnapshot = double.NaN;
     private bool _isTitleBarPressing;
     private int _animationSeq;
+    // One-time initialization guard. OnLoaded fires every time the control is re-attached
+    // to the visual tree (e.g. after a page switch);
+    // the initial folded-state setup must NOT run twice, or it overwrites the snapshot.
+    private bool _initialized;
 
     public static readonly StyledProperty<string?> TitleProperty =
         AvaloniaProperty.Register<FlowTitledCard, string?>(nameof(Title));
@@ -92,34 +98,60 @@ public partial class FlowTitledCard : FlowCard
         var descendants = this.GetVisualDescendants();
         var titleBarArea = descendants.OfType<Border>().First(x => x.Name == "TitleBarArea");
         var titleBarPullDownButton = descendants.OfType<FlowIconButton>().First(x => x.Name == "TitleBarPullDownButton");
-        _titleBarArea = titleBarArea;
+
+        // set pull down button initial state
+        titleBarPullDownButton.IconRotationAngle = IsFolded ? 0 : 180;
+
         InitializeFoldAnimation();
 
-        titleBarArea.PointerPressed += (_, e1) =>
+        // Re-attach pointer handlers only if the title bar instance changed
+        // (e.g. the decoration template was rebuilt). Otherwise we would stack
+        // duplicate handlers each time the control returns to the visual tree.
+        if (!ReferenceEquals(_titleBarArea, titleBarArea))
         {
-            titleBarPullDownButton.InjectPointerPressed(e1);
-            if (!CanFold || !e1.Properties.IsLeftButtonPressed) return;
-            TriggerPredicateAnimation();
-        };
-        titleBarArea.PointerReleased += (_, e1) =>
-        {
-            titleBarPullDownButton.InjectPointerReleased(e1);
-            _isTitleBarPressing = false;
-        };
-        titleBarArea.PointerExited += (_, e1) =>
-        {
-            titleBarPullDownButton.InjectPointerExited(e1);
-            if (!_isTitleBarPressing) return;
-            _isTitleBarPressing = false;
-            TriggerRestoreAnimation();
-        };
+            if (_titleBarArea is not null)
+            {
+                _titleBarArea.PointerPressed -= OnTitleBarPointerPressed;
+                _titleBarArea.PointerReleased -= OnTitleBarPointerReleased;
+                _titleBarArea.PointerExited -= OnTitleBarPointerExited;
+            }
+            _titleBarArea = titleBarArea;
+            _titleBarArea.PointerPressed += OnTitleBarPointerPressed;
+            _titleBarArea.PointerReleased += OnTitleBarPointerReleased;
+            _titleBarArea.PointerExited += OnTitleBarPointerExited;
+        }
+        _titleBarPullDownButton = titleBarPullDownButton;
 
-        // Apply initial folded state without animation, remembering the user-set Height.
+        if (_initialized) return;
+        _initialized = true;
+
+        // Apply initially folded state without animation, remembering the user-set Height.
         if (IsFolded)
         {
             _userHeightSnapshot = Height;
             Height = GetFoldedHeight();
         }
+    }
+
+    private void OnTitleBarPointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        _titleBarPullDownButton?.InjectPointerPressed(e);
+        if (!CanFold || !e.Properties.IsLeftButtonPressed) return;
+        TriggerPredicateAnimation();
+    }
+
+    private void OnTitleBarPointerReleased(object? sender, PointerReleasedEventArgs e)
+    {
+        _titleBarPullDownButton?.InjectPointerReleased(e);
+        _isTitleBarPressing = false;
+    }
+
+    private void OnTitleBarPointerExited(object? sender, PointerEventArgs e)
+    {
+        _titleBarPullDownButton?.InjectPointerExited(e);
+        if (!_isTitleBarPressing) return;
+        _isTitleBarPressing = false;
+        TriggerRestoreAnimation();
     }
 
     private double GetFoldedHeight()
@@ -243,7 +275,7 @@ public partial class FlowTitledCard : FlowCard
         }
         else if (double.IsFinite(_userHeightSnapshot))
         {
-            // Restore to the originally-set Height.
+            // Restore to the originally set Height.
             target = _userHeightSnapshot;
             completionValue = _userHeightSnapshot;
         }

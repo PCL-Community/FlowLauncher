@@ -12,10 +12,12 @@
         <Setter Property="Opacity" Value="{DynamicResource PanelOpacity}"/>
         <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="ContentMargin" Value="16"/>
-        <Setter Property="Child"><Template><Grid>
-            <ContentControl Margin="{Binding $parent[c:FlowCard].ContentMargin}"
-                    Content="{Binding $parent[c:FlowCard].Content}"
-                    ContentTemplate="{Binding $parent[c:FlowCard].ContentTemplate}"/>
+        <Setter Property="Child"><Template><Grid ClipToBounds="True">
+            <c:FloatingHeightPanel>
+                <ContentControl Margin="{Binding $parent[c:FlowCard].ContentMargin}"
+                        Content="{Binding $parent[c:FlowCard].Content}"
+                        ContentTemplate="{Binding $parent[c:FlowCard].ContentTemplate}"/>
+            </c:FloatingHeightPanel>
             <TemplatedControl DataContext="{Binding $parent[c:FlowCard]}"
                     Template="{Binding $parent[c:FlowCard].DecorationTemplate}"
                     HorizontalAlignment="{Binding $parent[c:FlowCard].DecorationHorizontalAlignment}"
