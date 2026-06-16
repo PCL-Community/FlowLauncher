@@ -23,4 +23,13 @@
     <data name="PageTitleTools" xml:space="preserve">
         <value>工具</value>
     </data>
+    <data name="PageTitleTasks" xml:space="preserve">
+        <value>最近任务</value>
+    </data>
+    <data name="HintNoTasks" xml:space="preserve">
+        <value>无最近任务</value>
+    </data>
+    <data name="PageNavTasks" xml:space="preserve">
+        <value>任务列表</value>
+    </data>
 </root>

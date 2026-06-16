@@ -9,6 +9,7 @@
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
         <AvaloniaVersion>11.3.14</AvaloniaVersion>
         <PublishType>normal</PublishType>
+        <NoWarn>AVLN2000</NoWarn>
     </PropertyGroup>
 
     <!-- Publish Type Options -->

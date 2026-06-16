@@ -103,13 +103,12 @@ public sealed partial class WindowsWindow : BaseWindow
         WindowState = WindowState.Minimized;
     }
 
-    private void BackButton_OnClick(object? sender, RoutedEventArgs e)
-    {
-        RootLayout.BackCommand.Execute(null);
-    }
+    private void BackButton_OnClick(object? sender, RoutedEventArgs e) => ClickBack();
 
     private void ButtonTestNativeWindow_OnClick(object? sender, RoutedEventArgs e)
     {
         UseNativeWindowFrame = !UseNativeWindowFrame;
     }
+
+    private void ButtonTasks_OnClick(object? sender, RoutedEventArgs e) => ClickTasks();
 }

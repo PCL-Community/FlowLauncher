@@ -13,6 +13,7 @@ public partial class RootLayoutViewModel : ViewModelBase
         ["install"] = new InstallViewModel(),
         ["tools"] = new ToolsViewModel(),
         ["settings"] = new SettingsViewModel(),
+        ["tasks"] = new TasksViewModel(),
     };
 
     public void RegisterPage(PageViewModel page) => _NavigateMap[page.Id] = page;
@@ -66,6 +67,7 @@ public partial class RootLayoutViewModel : ViewModelBase
         PageViewModel? page;
         if (pageId == null)
         {
+            if (_BackStack.Count <= 0 || !CurrentPagePreview.TriggerBack()) return;
             if (!_BackStack.TryPop(out page)) return;
         }
         else
@@ -77,6 +79,7 @@ public partial class RootLayoutViewModel : ViewModelBase
         // navigate & play animation
         Dispatcher.UIThread.Invoke(async () =>
         {
+            page.TriggerEnterPage();
             CurrentPagePreview = page;
             _MainContent_Opacity = 0;
             _LeftExtraControl_Scale = .6;
@@ -87,6 +90,7 @@ public partial class RootLayoutViewModel : ViewModelBase
             _MainContent_TranslateY = -80;
             await Task.Delay(TimeSpan.FromSeconds(.05));
             CurrentPageHasLeftExtraContent = page.LeftExtraContent != null;
+            var leavingPage = CurrentPage;
             CurrentPage = page;
             page.Content?.ViewControl.DataContext = page.Content.ViewModel;
             _LeftExtraControl_Scale = 1;
@@ -97,6 +101,7 @@ public partial class RootLayoutViewModel : ViewModelBase
             _MainContent_TranslateY = 0;
             await Task.Delay(TimeSpan.FromSeconds(.05));
             _MainContent_Opacity = 1;
+            leavingPage.TriggerLeavePage();
         });
     }
 

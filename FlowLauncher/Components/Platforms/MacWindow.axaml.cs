@@ -23,8 +23,7 @@ public sealed partial class MacWindow : BaseWindow
         ((TranslateTransform)BackPanel.RenderTransform!).X = RootLayout.HasLastPage ? 0 : -40;
     }
 
-    private void BackButton_OnClick(object? sender, RoutedEventArgs e)
-    {
-        RootLayout.BackCommand.Execute(null);
-    }
+    private void BackButton_OnClick(object? sender, RoutedEventArgs e) => ClickBack();
+
+    private void TasksButton_OnClick(object? sender, RoutedEventArgs e) => ClickTasks();
 }

@@ -23,6 +23,8 @@
                     HorizontalAlignment="{Binding $parent[c:FlowCard].DecorationHorizontalAlignment}"
                     VerticalAlignment="{Binding $parent[c:FlowCard].DecorationVerticalAlignment}"/>
         </Grid></Template></Setter>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="DecorationHorizontalAlignment" Value="Stretch"/>
         <Setter Property="DecorationVerticalAlignment" Value="Stretch"/>
         <Setter Property="Shadow" Value="#9000"/>

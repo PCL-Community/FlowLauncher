@@ -1,0 +1,20 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:FlowLauncher.ViewModels"
+        xmlns:c="clr-namespace:FlowLauncher.Controls"
+        xmlns:r="clr-namespace:FlowLauncher.Resources"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="FlowLauncher.Views.TasksPage"
+        x:DataType="vm:TasksViewModel">
+    <Grid>
+        <Grid IsVisible="{Binding CurrentTaskId, Converter={x:Static ObjectConverters.IsNull}}">
+            <c:FlowCard Width="250">
+                <TextBlock Text="{x:Static r:Strings.HintNoTasks}"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Foreground="{DynamicResource FlowTextSecondary}"/>
+            </c:FlowCard>
+        </Grid>
+    </Grid>
+</UserControl>

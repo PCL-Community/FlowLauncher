@@ -22,4 +22,15 @@ public class BaseWindow : Window
             RootLayout.BackCommand.Execute(null);
         }
     }
+
+    protected static void ClickBack()
+    {
+        RootLayout.BackCommand.Execute(null);
+    }
+
+    protected static void ClickTasks()
+    {
+        if (RootLayout.CurrentPagePreview.Id == "tasks") RootLayout.BackCommand.Execute(null);
+        else RootLayout.ForwardCommand.Execute("tasks");
+    }
 }

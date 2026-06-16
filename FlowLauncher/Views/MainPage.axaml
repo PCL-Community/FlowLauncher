@@ -9,9 +9,11 @@
         x:Class="FlowLauncher.Views.MainPage"
         x:DataType="vm:MainViewModel">
     <Grid Margin="10">
-        <c:FlowTitledCard Title="123" Height="223">
-            <c:FlowButton Text="Forward Test" HorizontalAlignment="Center" VerticalAlignment="Center"
-                Command="{Binding RootLayout.ForwardCommand}" CommandParameter="tools"/>
+        <c:FlowTitledCard Title="123" Classes="CentralizedContent">
+            <Grid Height="200">
+                <c:FlowButton Text="Forward Test" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Command="{Binding RootLayout.ForwardCommand}" CommandParameter="tools"/>
+            </Grid>
         </c:FlowTitledCard>
     </Grid>
 </UserControl>

@@ -78,6 +78,16 @@
                                 FontSize="14" FontWeight="Medium"/>
                     </Grid>
                     <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="5">
+                        <!-- tasks button -->
+                        <c:FlowButton Classes="TopBar IconOnly" ToolTip.Tip="{x:Static r:Strings.PageNavTasks}"
+                                Icon="{StaticResource IconCheckList}" Click="ButtonTasks_OnClick">
+                            <c:FlowButton.IsChecked>
+                                <MultiBinding Converter="{x:Static c:Converters.AllEqual}">
+                                    <Binding Path="RootLayout.CurrentPagePreview.Id"/>
+                                    <Binding Source="tasks"/>
+                                </MultiBinding>
+                            </c:FlowButton.IsChecked>
+                        </c:FlowButton>
                         <c:FlowButton Classes="TopBar IconOnly" Click="ButtonTestNativeWindow_OnClick" Icon="{StaticResource IconTools}"/>
                         <c:FlowButton Classes="TopBar IconOnly" Click="ButtonMinimize_OnClick" Icon="{StaticResource IconMinimize}"/>
                         <c:FlowButton Classes="TopBar IconOnly" Click="ButtonClose_OnClick" Icon="{StaticResource IconClose}"/>

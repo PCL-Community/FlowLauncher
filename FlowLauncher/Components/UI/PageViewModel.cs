@@ -34,6 +34,15 @@ public abstract partial class PageViewModel(string id, string title = "Untitled"
     [ObservableProperty]
     public partial VerticalAlignment LeftExtraContentAlignment { get; set; } = VerticalAlignment.Stretch;
 
+    protected virtual void OnEnterPage() { }
+    internal void TriggerEnterPage() => OnEnterPage();
+
+    protected virtual void OnLeavePage() { }
+    internal void TriggerLeavePage() => OnLeavePage();
+
+    protected virtual bool OnBack() => true;
+    internal bool TriggerBack() => OnBack();
+
     protected static Geometry? ReferIcon(string resourceKey)
     {
         if (!resourceKey.StartsWith("Icon")) resourceKey = "Icon" + resourceKey;
@@ -54,7 +63,7 @@ public abstract partial class PageViewModel(string id, string title = "Untitled"
         where TContent : ContentView, new()
     {
         var view = ContentView.GetViewCacheOrCreate<TContent>(bypassCache);
-        return new SimplePageContentViewModel(view, this);
+        return new SimpleContentViewModel(view, this);
     }
 }
 
@@ -77,11 +86,11 @@ public abstract class PageViewModel<TMainContent> : PageViewModel
     }
 }
 
-file class SimplePageContentViewModel : ContentViewModel
+file class SimpleContentViewModel : ContentViewModel
 {
     public override ContentView ViewControl { get; }
 
-    public SimplePageContentViewModel(ContentView view, PageViewModel viewModel)
+    public SimpleContentViewModel(ContentView view, PageViewModel viewModel)
     {
         ViewControl = view;
         ViewModel = viewModel;

@@ -59,5 +59,11 @@
     <Geometry x:Key="IconPullDown">
         M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z
     </Geometry>
+    <Geometry x:Key="IconCheckList">
+        M19 3H18V1H16V3H8V1H6V3H5C3.9 3 3 3.9 3 5V19C3 20.11 3.9 21 5 21
+        H19C20.11 21 21 20.11 21 19V5C21 3.9 20.11 3 19 3M19 19
+        H5V9H19V19M5 7V5H19V7H5M10.56 17.46L16.5 11.53L15.43 10.47
+        L10.56 15.34L8.45 13.23L7.39 14.29L10.56 17.46Z
+    </Geometry>
 
 </ResourceDictionary>

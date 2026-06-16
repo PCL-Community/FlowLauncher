@@ -32,4 +32,13 @@
     <data name="PageTitleTools" xml:space="preserve">
         <value>Tools</value>
     </data>
+    <data name="PageTitleTasks" xml:space="preserve">
+        <value>Recent Tasks</value>
+    </data>
+    <data name="HintNoTasks" xml:space="preserve">
+        <value>No recent tasks</value>
+    </data>
+    <data name="PageNavTasks" xml:space="preserve">
+        <value>Tasks</value>
+    </data>
 </root>

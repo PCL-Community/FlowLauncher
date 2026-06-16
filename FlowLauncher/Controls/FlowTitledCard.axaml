@@ -59,10 +59,15 @@
         <Setter Property="DecorationVerticalAlignment" Value="Top"/>
         <!-- Default to content-driven height: don't stretch vertically in the parent layout. -->
         <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="ContentMargin" Value="16,40,16,16"/>
         <Setter Property="TitleBarForeground" Value="{DynamicResource FlowTextPrimary}"/>
         <Style Selector="^:pointerover">
             <Setter Property="TitleBarForeground" Value="{DynamicResource FlowAccent}"/>
+        </Style>
+
+        <Style Selector="^.CentralizedContent">
+            <Setter Property="ContentMargin" Value="16"/>
         </Style>
     </Style>
 

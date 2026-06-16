@@ -13,7 +13,9 @@
     <Grid x:Name="BackgroundPanel">
         <ui:RootLayout ParentWindow="{Binding RelativeSource={RelativeSource AncestorType=p:BaseWindow}}"
                 DataContext="{Binding RootLayout, RelativeSource={RelativeSource AncestorType=p:BaseWindow}}"/>
+        <!-- topbar -->
         <Grid VerticalAlignment="Top" Height="{StaticResource TopBarHeight}">
+            <!-- navigation controls -->
             <Grid Classes="Nav" x:Name="BackPanel" ColumnDefinitions="100,*,100" ColumnSpacing="10" Margin="8,4"
                     Opacity="{Binding RootLayout.HasLastPage, Converter={x:Static c:Converters.BoolToOpacity}}">
                 <Grid.Styles>
@@ -46,6 +48,19 @@
                 <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"
                         Text="{Binding RootLayout.CurrentPagePreview.Title}" IsEnabled="False"
                         FontSize="16" Foreground="{DynamicResource FlowTopBarForeground}"/>
+            </Grid>
+            <!-- right extra contents -->
+            <Grid HorizontalAlignment="Right" Margin="8,4">
+                <!-- tasks button -->
+                <c:FlowButton Classes="TopBar" VerticalAlignment="Center" Text="{x:Static r:Strings.PageNavTasks}"
+                        Icon="{StaticResource IconCheckList}" Click="TasksButton_OnClick">
+                    <c:FlowButton.IsChecked>
+                        <MultiBinding Converter="{x:Static c:Converters.AllEqual}">
+                            <Binding Path="RootLayout.CurrentPagePreview.Id"/>
+                            <Binding Source="tasks"/>
+                        </MultiBinding>
+                    </c:FlowButton.IsChecked>
+                </c:FlowButton>
             </Grid>
         </Grid>
     </Grid>
