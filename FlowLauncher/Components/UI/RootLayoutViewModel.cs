@@ -9,10 +9,10 @@ public partial class RootLayoutViewModel : ViewModelBase
 {
     private Dictionary<string, PageViewModel> _NavigateMap => field ??= new()
     {
-        ["main"] = new MainPageViewModel(),
-        ["install"] = new InstallPageViewModel(),
-        ["tools"] = new ToolsPageViewModel(),
-        ["settings"] = new SettingsPageViewModel(),
+        ["main"] = new MainViewModel(),
+        ["install"] = new InstallViewModel(),
+        ["tools"] = new ToolsViewModel(),
+        ["settings"] = new SettingsViewModel(),
     };
 
     public void RegisterPage(PageViewModel page) => _NavigateMap[page.Id] = page;

@@ -4,9 +4,9 @@ using FlowLauncher.Views;
 
 namespace FlowLauncher.ViewModels;
 
-public partial class MainPageViewModel : PageViewModel<MainPage>
+public partial class MainViewModel : PageViewModel<MainPage>
 {
-    public MainPageViewModel() : base("main", Strings.PageTitleMain)
+    public MainViewModel() : base("main", Strings.PageTitleMain)
     {
         LeftExtraContent = ReferContent<MainPageLeft>();
     }

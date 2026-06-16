@@ -5,9 +5,9 @@ using FlowLauncher.Views;
 
 namespace FlowLauncher.ViewModels;
 
-public partial class ToolsPageViewModel : PageViewModel<ToolsPage>
+public partial class ToolsViewModel : PageViewModel<ToolsPage>
 {
-    public ToolsPageViewModel() : base("tools", Strings.PageTitleTools)
+    public ToolsViewModel() : base("tools", Strings.PageTitleTools)
     {
         LeftMenuItems = [
             new LeftMenuTitleViewModel

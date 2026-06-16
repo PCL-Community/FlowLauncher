@@ -7,7 +7,7 @@
         xmlns:r="clr-namespace:FlowLauncher.Resources"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="FlowLauncher.Views.MainPage"
-        x:DataType="vm:MainPageViewModel">
+        x:DataType="vm:MainViewModel">
     <Grid Margin="10">
         <c:FlowTitledCard Title="123" Height="223">
             <c:FlowButton Text="Forward Test" HorizontalAlignment="Center" VerticalAlignment="Center"
