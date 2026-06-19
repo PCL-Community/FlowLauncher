@@ -1,5 +1,7 @@
 ﻿namespace FlowLauncher.Components.Debugging;
 
+#if DEBUG
+
 [Flow.Scope("info")]
 public static partial class InfoReporter
 {
@@ -17,3 +19,5 @@ public static partial class InfoReporter
         return Task.CompletedTask;
     }
 }
+
+#endif
