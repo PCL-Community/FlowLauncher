@@ -9,7 +9,6 @@
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
         <AvaloniaVersion>11.3.14</AvaloniaVersion>
         <PublishType>normal</PublishType>
-        <NoWarn>AVLN2000</NoWarn>
     </PropertyGroup>
 
     <!-- Publish Type Options -->
@@ -62,7 +61,8 @@
         </PackageReference>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2"/>
         <PackageReference Include="FlowNet.Core" Version="0.2.0"/>
-        <PackageReference Include="CmlLib.Core" Version="4.0.6" />
+        <PackageReference Include="CmlLib.Core" Version="4.0.6"/>
+        <PackageReference Include="SharpZipLib" Version="1.4.2"/>
     </ItemGroup>
 
     <!-- Localization -->

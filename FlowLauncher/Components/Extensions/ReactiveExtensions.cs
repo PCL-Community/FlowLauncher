@@ -1,4 +1,4 @@
-namespace FlowLauncher.Extensions;
+namespace FlowLauncher.Components.Extensions;
 
 public static class ReactiveExtensions
 {
