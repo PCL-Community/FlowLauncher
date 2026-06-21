@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using FlowLauncher.Components.FlowIntegration;
 using FlowLauncher.Components.UI;
 using FlowLauncher.Resources;
 using FlowLauncher.Views;
 
 namespace FlowLauncher.ViewModels;
 
+[FirstLoadingPage]
 public partial class ToolsViewModel : PageViewModel<ToolsPage>
 {
     public ToolsViewModel() : base("tools", Strings.PageTitleTools)

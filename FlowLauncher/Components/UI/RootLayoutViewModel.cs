@@ -1,20 +1,17 @@
 ﻿using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using FlowLauncher.ViewModels;
 
 namespace FlowLauncher.Components.UI;
 
 public partial class RootLayoutViewModel : ViewModelBase
 {
-    private Dictionary<string, PageViewModel> _NavigateMap => field ??= new()
-    {
-        ["main"] = new MainViewModel(),
-        ["install"] = new InstallViewModel(),
-        ["tools"] = new ToolsViewModel(),
-        ["settings"] = new SettingsViewModel(),
-        ["tasks"] = new TasksViewModel(),
-    };
+    private static readonly List<Func<PageViewModel>> FirstLoadingPages = [];
+
+    public static void RegisterFirstLoadingPage(Func<PageViewModel> page) => FirstLoadingPages.Add(page);
+
+    private Dictionary<string, PageViewModel> _NavigateMap => field
+        ??= FirstLoadingPages.Select(f => f()).ToDictionary(p => p.Id);
 
     public void RegisterPage(PageViewModel page) => _NavigateMap[page.Id] = page;
 

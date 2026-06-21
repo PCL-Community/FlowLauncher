@@ -1,6 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Input;
-using RootLayoutViewModel = FlowLauncher.Components.UI.RootLayoutViewModel;
+using FlowLauncher.Components.UI;
 
 namespace FlowLauncher.Components.Platforms;
 
