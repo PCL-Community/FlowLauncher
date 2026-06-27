@@ -17,10 +17,7 @@ public class BaseWindow : Window
     protected override void OnKeyUp(KeyEventArgs e)
     {
         base.OnKeyUp(e);
-        if (e.Key == Key.Escape)
-        {
-            RootLayout.BackCommand.Execute(null);
-        }
+        if (e.Key == Key.Escape) ClickBack();
     }
 
     protected static void ClickBack()
