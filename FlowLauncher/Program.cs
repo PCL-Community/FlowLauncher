@@ -29,7 +29,16 @@ static partial class Program
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
+            .UseSkia()
+#if FL_PLATFORM_WINDOWS
+            .UseWin32()
+#elif FL_PLATFORM_MACOS
+            .UseAvaloniaNative()
+#elif FL_PLATFORM_LINUX
+            .UseX11()
+#else
             .UsePlatformDetect()
+#endif
             .WithInterFont()
             .LogToTrace();
 
