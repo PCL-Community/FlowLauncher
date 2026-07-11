@@ -11,7 +11,7 @@ on:
       native:
         description: Build native artifacts when true.
         required: false
-        default: true
+        default: false
         type: boolean
   workflow_dispatch: 
     inputs: *workflow-inputs
