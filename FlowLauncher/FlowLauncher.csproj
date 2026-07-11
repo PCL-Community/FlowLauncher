@@ -65,7 +65,7 @@
         <PackageReference Include="Avalonia.Skia" Version="$(AvaloniaVersion)"/>
         <PackageReference Include="Avalonia.Win32" Version="$(AvaloniaVersion)" Condition="'$(TargetPlatformIdentifier)' == 'windows'"/>
         <PackageReference Include="Avalonia.X11" Version="$(AvaloniaVersion)" Condition="'$(TargetPlatformIdentifier)' == 'linux'"/>
-        <PackageReference Include="Avalonia.Native" Version="$(AvaloniaVersion)" Condition="'$(TargetPlatformIdentifier)' == 'macos' or '$(TargetPlatformIdentifier)' == 'osx'"/>
+        <PackageReference Include="Avalonia.Native" Version="$(AvaloniaVersion)" Condition="'$(TargetPlatformIdentifier)' == 'osx'"/>
         <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" Condition="'$(TargetPlatformIdentifier)' != 'windows' and '$(TargetPlatformIdentifier)' != 'linux' and '$(TargetPlatformIdentifier)' != 'osx'"/>
         <PackageReference Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)"/>
         <PackageReference Include="Avalonia.Fonts.Inter" Version="$(AvaloniaVersion)"/>
