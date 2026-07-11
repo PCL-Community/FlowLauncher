@@ -2,12 +2,19 @@ name: Build (Reusable)
 
 on:
   workflow_call:
-    inputs:
+    inputs: &workflow-inputs
       debug:
-        description: Set `Configuration` to `Debug` when true.
+        description: Set build configuration to `Debug` when true.
         required: false
         default: false
         type: boolean
+      native:
+        description: Build native artifacts when true.
+        required: false
+        default: true
+        type: boolean
+  workflow_dispatch: 
+    inputs: *workflow-inputs
 
 jobs:
   build:
@@ -53,6 +60,7 @@ jobs:
           if-no-files-found: error
 
   build-native:
+    if: inputs.native
     strategy:
       fail-fast: false
       matrix:
@@ -74,7 +82,7 @@ jobs:
             runs-on: ubuntu-24.04-arm
           - arch: osx-x64
             type: native
-            runs-on: macos-13
+            runs-on: macos-latest
           - arch: osx-arm64
             type: native
             runs-on: macos-latest

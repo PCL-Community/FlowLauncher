@@ -12,7 +12,6 @@ on:
       - '.github/PULL_REQUEST_TEMPLATE*'
       - 'docs/**'
       - 'LICENSE*'
-  workflow_dispatch:
 
 jobs:
   test:
