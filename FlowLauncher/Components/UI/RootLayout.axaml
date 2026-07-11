@@ -206,5 +206,11 @@
                 </Decorator>
             </Border>
         </DockPanel>
+        <Grid RowDefinitions="*,Auto,40">
+            <ItemsControl Grid.Row="1">
+                <ItemsControl.ItemTemplate><DataTemplate>
+                </DataTemplate></ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
     </Grid>
 </UserControl>

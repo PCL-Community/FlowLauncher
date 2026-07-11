@@ -1,8 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Input;
-using FlowLauncher.Components.UI;
 
-namespace FlowLauncher.Components.Platforms;
+namespace FlowLauncher.Components.UI;
 
 public class BaseWindow : Window
 {

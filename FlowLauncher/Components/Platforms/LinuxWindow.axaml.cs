@@ -1,4 +1,4 @@
-using RootLayout = FlowLauncher.Components.UI.RootLayout;
+using FlowLauncher.Components.UI;
 
 namespace FlowLauncher.Components.Platforms;
 

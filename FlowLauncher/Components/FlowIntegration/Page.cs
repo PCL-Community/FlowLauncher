@@ -9,4 +9,10 @@ public static class Page
         RootLayoutViewModel.RegisterFirstLoadingPage(page);
         return Task.CompletedTask;
     }
+
+    public static Task Register(PageViewModel page)
+    {
+        BaseWindow.RootLayout.RegisterPage(page);
+        return Task.CompletedTask;
+    }
 }

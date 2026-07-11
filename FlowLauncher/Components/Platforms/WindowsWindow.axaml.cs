@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Threading;
+using FlowLauncher.Components.UI;
 
 namespace FlowLauncher.Components.Platforms;
 

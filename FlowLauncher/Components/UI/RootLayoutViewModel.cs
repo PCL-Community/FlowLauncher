@@ -8,21 +8,38 @@ public partial class RootLayoutViewModel : ViewModelBase
 {
     private static readonly List<Func<PageViewModel>> FirstLoadingPages = [];
 
+    /// <summary>
+    /// 注册首次加载的页面视图模型，将通过委托在布局初始化后懒加载，页面 ID 在加载后可用
+    /// </summary>
+    /// <param name="page">加载该视图模型的委托</param>
     public static void RegisterFirstLoadingPage(Func<PageViewModel> page) => FirstLoadingPages.Add(page);
 
     private Dictionary<string, PageViewModel> _NavigateMap => field
         ??= FirstLoadingPages.Select(f => f()).ToDictionary(p => p.Id);
 
+    /// <summary>
+    /// 注册页面视图模型，页面 ID 将立即可用
+    /// </summary>
+    /// <param name="page">视图模型</param>
     public void RegisterPage(PageViewModel page) => _NavigateMap[page.Id] = page;
 
     private readonly Stack<PageViewModel> _BackStack = [];
 
+    /// <summary>
+    /// 上一页面，当 <see cref="HasLastPage"/> 为 <see langword="false"/> 时该值为 <see langword="null"/>
+    /// </summary>
     [ObservableProperty]
     public partial PageViewModel? LastPage { get; private set; }
 
+    /// <summary>
+    /// 指示是否存在上一页面
+    /// </summary>
     [ObservableProperty]
     public partial bool HasLastPage { get; private set; }
 
+    /// <summary>
+    /// 当前页面的预览视图模型
+    /// </summary>
     public PageViewModel CurrentPagePreview
     {
         get => field ??= _NavigateMap["main"];
@@ -35,12 +52,18 @@ public partial class RootLayoutViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+    /// 当前页面内容的视图模型
+    /// </summary>
     public ContentViewModel? CurrentPageContentPreview
     {
         get => field ??= CurrentPagePreview.Content;
         private set => SetProperty(ref field, value);
     }
 
+    /// <summary>
+    /// 当前页面的视图模型
+    /// </summary>
     public PageViewModel CurrentPage
     {
         get => field ??= CurrentPagePreview;
@@ -102,17 +125,32 @@ public partial class RootLayoutViewModel : ViewModelBase
         });
     }
 
+    /// <summary>
+    /// 返回上一页
+    /// </summary>
     [RelayCommand]
-    private void Back() => _Navigate(null);
+    public void Back() => _Navigate(null);
 
+    /// <summary>
+    /// 切换到指定页并清空返回栈
+    /// </summary>
+    /// <param name="pageId">指定页面 ID</param>
     [RelayCommand]
-    private void Navigate(string pageId) => _Navigate(pageId, false);
+    public void Navigate(string pageId) => _Navigate(pageId, false);
 
+    /// <summary>
+    /// 切换到指定页并记录返回栈
+    /// </summary>
+    /// <param name="pageId">指定页面 ID</param>
     [RelayCommand]
-    private void Forward(string pageId) => _Navigate(pageId);
+    public void Forward(string pageId) => _Navigate(pageId);
 
+    /// <summary>
+    /// 切换页面内容
+    /// </summary>
+    /// <param name="target">目标内容的视图模型</param>
     [RelayCommand]
-    private void SwitchContent(ContentViewModel target)
+    public void SwitchContent(ContentViewModel target)
     {
         if (CurrentPagePreview.Content == target) return;
         Dispatcher.UIThread.Invoke(async () =>
@@ -129,5 +167,15 @@ public partial class RootLayoutViewModel : ViewModelBase
             await Task.Delay(TimeSpan.FromSeconds(.05));
             _MainContent_Opacity = 1;
         });
+    }
+
+    /// <summary>
+    /// 消息中心
+    /// </summary>
+    public MessageHostModel MessageHost { get; }
+
+    public RootLayoutViewModel()
+    {
+        MessageHost = new MessageHostModel(this);
     }
 }

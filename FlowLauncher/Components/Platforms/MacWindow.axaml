@@ -1,6 +1,5 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:p="clr-namespace:FlowLauncher.Components.Platforms"
         xmlns:c="clr-namespace:FlowLauncher.Controls"
         xmlns:r="clr-namespace:FlowLauncher.Resources"
         xmlns:ui="clr-namespace:FlowLauncher.Components.UI"
@@ -11,8 +10,8 @@
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         ExtendClientAreaToDecorationsHint="True">
     <Grid x:Name="BackgroundPanel">
-        <ui:RootLayout ParentWindow="{Binding RelativeSource={RelativeSource AncestorType=p:BaseWindow}}"
-                DataContext="{Binding RootLayout, RelativeSource={RelativeSource AncestorType=p:BaseWindow}}"/>
+        <ui:RootLayout ParentWindow="{Binding RelativeSource={RelativeSource AncestorType=ui:BaseWindow}}"
+                DataContext="{Binding RootLayout, RelativeSource={RelativeSource AncestorType=ui:BaseWindow}}"/>
         <!-- topbar -->
         <Grid VerticalAlignment="Top" Height="{StaticResource TopBarHeight}">
             <!-- navigation controls -->

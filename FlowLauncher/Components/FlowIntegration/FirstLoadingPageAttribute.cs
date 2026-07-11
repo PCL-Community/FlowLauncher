@@ -4,7 +4,8 @@ using FlowNet.Collector;
 namespace FlowLauncher.Components.FlowIntegration;
 
 /// <summary>
-/// Mark a view model class as a page, this class must have an empty constructor and implement <see cref="PageViewModel"/>.
+/// Mark a view model class as a first-loading page, this class must have an empty
+/// constructor and implement <see cref="PageViewModel"/>.
 /// </summary>
 [CollectorMeta("FlowLauncher.Components.FlowIntegration.Page.RegisterFirstLoading")]
 [CollectorMeta.SupportsNamedType(TypeGenerationMode.EmptyConstructor, true)]

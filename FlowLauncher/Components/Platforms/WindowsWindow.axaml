@@ -1,7 +1,6 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:c="clr-namespace:FlowLauncher.Controls"
-        xmlns:p="clr-namespace:FlowLauncher.Components.Platforms"
         xmlns:r="clr-namespace:FlowLauncher.Resources"
         xmlns:ui="clr-namespace:FlowLauncher.Components.UI"
         x:Class="FlowLauncher.Components.Platforms.WindowsWindow"
@@ -29,8 +28,8 @@
                 Background="{DynamicResource FlowWindowBackground}"
                 ClipToBounds="True">
             <Grid>
-                <ui:RootLayout ParentWindow="{Binding RelativeSource={RelativeSource AncestorType=p:BaseWindow}}"
-                        DataContext="{Binding RootLayout, RelativeSource={RelativeSource AncestorType=p:BaseWindow}}"/>
+                <ui:RootLayout ParentWindow="{Binding RelativeSource={RelativeSource AncestorType=ui:BaseWindow}}"
+                        DataContext="{Binding RootLayout, RelativeSource={RelativeSource AncestorType=ui:BaseWindow}}"/>
                 <Grid Height="{StaticResource TopBarHeight}" VerticalAlignment="Top"
                         ColumnDefinitions="10,Auto,*,Auto,10" ColumnSpacing="5">
                     <Grid.Styles>
