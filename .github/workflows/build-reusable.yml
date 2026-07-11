@@ -1,0 +1,52 @@
+name: Build (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      debug:
+        description: Set `Configuration` to `Debug` when true.
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        type:
+          - normal
+          - trimmed
+          - native
+        arch:
+          - win-x86
+          - win-x64
+          - win-arm64
+          - linux-x64
+          - linux-arm64
+          - osx-x64
+          - osx-arm64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5.4.0
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Build
+        run: >-
+          dotnet publish FlowLauncher/FlowLauncher.csproj
+          -p:PublishType=${{ matrix.type }}
+          -p:RuntimeIdentifier=${{ matrix.arch }}
+          ${{ inputs.debug && '-p:Configuration=Debug' || '' }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: FlowLauncher_${{ matrix.type }}_${{ matrix.arch }}${{ inputs.debug && '_debug' || '' }}
+          path: FlowLauncher/bin/${{ inputs.debug && 'Debug' || 'Release' }}/net10.0/${{ matrix.arch }}/publish/
+          if-no-files-found: error

@@ -1,0 +1,20 @@
+name: Build (Nightly)
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.txt'
+      - '**/.gitignore'
+      - '.github/ISSUE_TEMPLATE/**'
+      - '.github/PULL_REQUEST_TEMPLATE*'
+      - 'docs/**'
+      - 'LICENSE*'
+
+jobs:
+  nightly:
+    uses: ./.github/workflows/build-reusable.yml
+    with:
+      debug: true
