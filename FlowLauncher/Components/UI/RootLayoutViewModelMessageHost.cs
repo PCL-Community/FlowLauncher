@@ -86,8 +86,10 @@ public class NotificationMessage : MessageClickable
 
 partial class RootLayoutViewModel
 {
-    public partial class MessageHostModel(RootLayoutViewModel RootLayout)
+    public partial class MessageHostModel(RootLayoutViewModel rootLayout)
     {
+        private RootLayoutViewModel RootLayout { get; } = rootLayout;
+
         public AvaloniaList<ToastMessage> ToastList { get; } = [];
 
         /// <summary>
