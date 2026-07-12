@@ -16,13 +16,16 @@
 
     <!-- Publish Type Options -->
     <PropertyGroup Condition="'$(PublishType)' == 'normal'">
+        <DefineConstants>$(DefineConstants);FL_PUBLISH_NORMAL</DefineConstants>
         <SelfContained>false</SelfContained>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(PublishType)' == 'trimmed'">
+    <PropertyGroup Condition="'$(PublishType)' == 'standalone'">
+        <DefineConstants>$(DefineConstants);FL_PUBLISH_STANDALONE</DefineConstants>
         <SelfContained>true</SelfContained>
         <PublishTrimmed>true</PublishTrimmed>
     </PropertyGroup>
     <PropertyGroup Condition="'$(PublishType)' == 'native'">
+        <DefineConstants>$(DefineConstants);FL_PUBLISH_NATIVE</DefineConstants>
         <PublishAot>true</PublishAot>
         <!-- Necessary before Avalonia 12.0, was used for accessiblity APIs -->
         <BuiltInComInteropSupport>false</BuiltInComInteropSupport>

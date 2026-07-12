@@ -23,7 +23,7 @@ jobs:
       matrix:
         type:
           - normal
-          - trimmed
+          - standalone
         arch:
           - win-x86
           - win-x64
