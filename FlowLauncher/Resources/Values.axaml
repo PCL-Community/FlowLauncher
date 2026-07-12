@@ -5,6 +5,6 @@
     <sys:Double x:Key="TopBarHeight">50.0</sys:Double>
     <SpringEasing x:Key="SpringEasing" Mass="1.15" Stiffness="100" Damping="15" InitialVelocity="0"/>
     <BoxShadows x:Key="WindowShadow">0 0 12 -2 Black</BoxShadows>
-    <Thickness x:Key="PanelContentMargin">20</Thickness>
+    <Thickness x:Key="PanelContentMargin">16</Thickness>
 
 </ResourceDictionary>

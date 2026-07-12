@@ -171,9 +171,10 @@
                         </ItemsControl>
                     </ScrollViewer>
                     <!-- extra content -->
-                    <Decorator Grid.Row="1" Margin="{StaticResource PanelContentMargin}" Opacity="{Binding _LeftExtraControl_Opacity}"
+                    <Decorator Grid.Row="1" Margin="{StaticResource PanelContentMargin}"
+                            Opacity="{Binding _LeftExtraControl_Opacity}"
                             VerticalAlignment="{Binding CurrentPage.LeftExtraContentAlignment}"
-                            IsVisible="{Binding CurrentPage.LeftExtraContent.ViewControl, FallbackValue={x:Null}, Converter={x:Static ObjectConverters.IsNotNull}}"
+                            IsVisible="{Binding CurrentPageHasLeftExtraContent}"
                             Child="{Binding CurrentPage.LeftExtraContent.ViewControl, FallbackValue={x:Null}}">
                         <Decorator.RenderTransform>
                             <ScaleTransform ScaleX="{Binding _LeftExtraControl_Scale}" ScaleY="{Binding _LeftExtraControl_Scale}">

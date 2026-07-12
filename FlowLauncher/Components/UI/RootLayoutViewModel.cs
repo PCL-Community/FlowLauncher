@@ -66,13 +66,26 @@ public partial class RootLayoutViewModel : ViewModelBase
     /// </summary>
     public PageViewModel CurrentPage
     {
-        get => field ??= CurrentPagePreview;
-        private set => SetProperty(ref field, value);
+        get
+        {
+            if (field != null) return field;
+            field = CurrentPagePreview;
+            CurrentPageHasLeftExtraContent = field.LeftExtraContent != null;
+            return field;
+        }
+        private set
+        {
+            SetProperty(ref field, value);
+            CurrentPageHasLeftExtraContent = value.LeftExtraContent != null;
+        }
     }
 
-    [ObservableProperty]
-    public partial bool CurrentPageHasLeftExtraContent { get; private set; }
+    /// <summary>
+    /// 指示当前页面左侧侧栏是否有额外内容
+    /// </summary>
+    [ObservableProperty] public partial bool CurrentPageHasLeftExtraContent { get; private set; }
 
+    // === Animation Variables ===
     [ObservableProperty] public partial double _LeftMenuControl_TranslateX { get; private set; } = 0;
     [ObservableProperty] public partial double _LeftMenuControl_Opacity { get; private set; } = 1;
     [ObservableProperty] public partial double _LeftExtraControl_Scale { get; private set; } = 1;
@@ -109,7 +122,6 @@ public partial class RootLayoutViewModel : ViewModelBase
             await Task.Delay(TimeSpan.FromSeconds(.05));
             _MainContent_TranslateY = -80;
             await Task.Delay(TimeSpan.FromSeconds(.05));
-            CurrentPageHasLeftExtraContent = page.LeftExtraContent != null;
             var leavingPage = CurrentPage;
             CurrentPage = page;
             page.Content?.ViewControl.DataContext = page.Content.ViewModel;
