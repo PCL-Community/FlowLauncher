@@ -3,10 +3,13 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Threading;
+using FlowLauncher.Components.FlowIntegration;
 using FlowLauncher.Components.UI;
 
 namespace FlowLauncher.Components.Platforms;
 
+[PlatformSelector.Is(FlowPlatform.Windows)]
+[PlatformWindow]
 public sealed partial class WindowsWindow : BaseWindow
 {
     public static readonly StyledProperty<bool> UseNativeWindowFrameProperty =

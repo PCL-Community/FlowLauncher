@@ -2,7 +2,6 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Threading;
-using FlowLauncher.Components.Platforms;
 
 namespace FlowLauncher;
 
@@ -68,13 +67,13 @@ static partial class Program
         OnProgramExit.SetResult();
     }
 
+    internal static Func<Window>? CurrentSessionWindowFactory { private get; set; } = null;
+
     private static void CreateMainWindow()
     {
-        Window mainWindow;
-        if (OperatingSystem.IsWindows()) mainWindow = new WindowsWindow();
-        else if (OperatingSystem.IsMacOS()) mainWindow = new MacWindow();
-        else if (OperatingSystem.IsLinux()) mainWindow = new LinuxWindow();
-        else throw new NotSupportedException($"Platform not supported: {RuntimeInformation.OSDescription}");
+        if (CurrentSessionWindowFactory == null)
+            throw new NotSupportedException($"Platform not supported: {RuntimeInformation.OSDescription}");
+        var mainWindow = CurrentSessionWindowFactory();
         mainWindow.Show();
     }
 
