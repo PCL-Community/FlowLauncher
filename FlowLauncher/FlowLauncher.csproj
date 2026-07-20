@@ -78,7 +78,7 @@
         </PackageReference>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2"/>
         <PackageReference Include="FlowNet.Core" Version="0.2.2"/>
-        <PackageReference Include="FlowNet.Collector" Version="0.2.0"/>
+        <PackageReference Include="FlowNet.Collector" Version="0.2.1"/>
         <PackageReference Include="CmlLib.Core" Version="4.0.6"/>
         <PackageReference Include="SharpZipLib" Version="1.4.2"/>
     </ItemGroup>
