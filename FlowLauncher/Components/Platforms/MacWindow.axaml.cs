@@ -1,10 +1,13 @@
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Threading;
+using FlowLauncher.Components.FlowIntegration;
 using FlowLauncher.Components.UI;
 
 namespace FlowLauncher.Components.Platforms;
 
+[PlatformSelector.Is(FlowPlatform.MacOS)]
+[PlatformWindow]
 public sealed partial class MacWindow : BaseWindow
 {
     public MacWindow()
