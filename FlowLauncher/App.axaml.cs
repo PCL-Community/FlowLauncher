@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Avalonia;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
@@ -19,6 +20,7 @@ public class App : Application
         base.OnFrameworkInitializationCompleted();
     }
 
+    [UnconditionalSuppressMessage("Trimming", "IL2026")]
     private void DisableAvaloniaDataAnnotationValidation()
     {
         // Get an array of plugins to remove
