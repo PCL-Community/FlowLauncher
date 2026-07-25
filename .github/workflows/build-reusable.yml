@@ -51,12 +51,7 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Build
-        run: >-
-          dotnet publish FlowLauncher/FlowLauncher.csproj
-           -p:PublishType=${{ matrix.type }}
-           -p:RuntimeIdentifier=${{ matrix.arch }}
-           ${{ inputs.debug && '-p:Configuration=Debug' || '' }}
-           ${{ inputs.version && format('-p:Version={0}', inputs.version) || '' }}
+        run: dotnet publish FlowLauncher/FlowLauncher.csproj -p:PublishType=${{ matrix.type }} -p:RuntimeIdentifier=${{ matrix.arch }} ${{ inputs.debug && '-p:Configuration=Debug' || '' }} ${{ inputs.version && format('-p:Version={0}', inputs.version) || '' }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v7.0.1
