@@ -1,0 +1,86 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c="using:FlowLauncher.Controls">
+
+    <Design.PreviewWith>
+        <c:FlowProgressButton Text="Download" SmallText="2.4 MB / 10 MB" Progress=".24" Width="240"/>
+    </Design.PreviewWith>
+
+    <Style Selector=":is(c|FlowProgressButton)">
+        <Setter Property="ContentTemplate">
+            <ControlTemplate x:DataType="c:FlowProgressButton">
+                <Grid>
+                    <Border HorizontalAlignment="Left" Background="{DynamicResource FlowAccent}" Opacity=".25">
+                        <Border.Width>
+                            <MultiBinding Converter="{x:Static c:Converters.Multiply}">
+                                <Binding Path="Progress"/>
+                                <Binding Path="Bounds.Width"/>
+                            </MultiBinding>
+                        </Border.Width>
+                        <Border.Transitions><Transitions>
+                            <DoubleTransition Property="Width" Duration="0:0:.25" Easing="CubicEaseOut"/>
+                        </Transitions></Border.Transitions>
+                    </Border>
+                    <Border HorizontalAlignment="Left" Background="{DynamicResource FlowAccent}"
+                            Opacity="{Binding PredictiveOpacity}">
+                        <Border.Width>
+                            <MultiBinding Converter="{x:Static c:Converters.Multiply}">
+                                <Binding Path="PredictiveProgress"/>
+                                <Binding Path="Bounds.Width"/>
+                            </MultiBinding>
+                        </Border.Width>
+                    </Border>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="1" Margin="12,6">
+                        <TextBlock Text="{Binding Text}" HorizontalAlignment="Center"
+                                   TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding SmallText}" HorizontalAlignment="Center"
+                                   IsVisible="{Binding SmallText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                   TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" FontSize="12" Opacity=".7"/>
+                    </StackPanel>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+        <Setter Property="Background" Value="{DynamicResource FlowAccent}"/>
+        <Setter Property="BackgroundOpacity" Value=".1"/>
+        <Setter Property="MinHeight" Value="20"/>
+        <Setter Property="MinWidth" Value="20"/>
+        <Setter Property="CornerRadius" Value="33550336"/>
+        <Setter Property="PredictiveProgress" Value="0"/>
+        <Setter Property="PredictiveOpacity" Value="0"/>
+        <Setter Property="PredicatedAnimation">
+            <c:PredicatedAnimation PredicateDuration="0:0:.12" RestoreDuration="0:0:.12" ContinueDuration="0:0:.64"
+                                   PredicateEasing="CubicEaseOut" RestoreEasing="CubicEaseOut" ContinueEasing="CubicEaseOut">
+                <c:PredicatedAnimation.PredicateFrame>
+                    <Setter Property="PredictiveProgress" Value=".25"/>
+                    <Setter Property="PredictiveOpacity" Value=".35"/>
+                </c:PredicatedAnimation.PredicateFrame>
+                <c:PredicatedAnimation.RestoreFrame>
+                    <Setter Property="PredictiveProgress" Value="0"/>
+                    <Setter Property="PredictiveOpacity" Value="0"/>
+                </c:PredicatedAnimation.RestoreFrame>
+                <c:PredicatedAnimation.ContinueFrames>
+                    <KeyFrame Cue="0%">
+                        <Setter Property="PredictiveProgress" Value=".25"/>
+                        <Setter Property="PredictiveOpacity" Value=".35"/>
+                    </KeyFrame>
+                    <KeyFrame Cue="65%">
+                        <Setter Property="PredictiveProgress" Value="1"/>
+                        <Setter Property="PredictiveOpacity" Value=".35"/>
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="PredictiveProgress" Value="1"/>
+                        <Setter Property="PredictiveOpacity" Value="0"/>
+                    </KeyFrame>
+                </c:PredicatedAnimation.ContinueFrames>
+                <c:PredicatedAnimation.Completion>
+                    <Setter Property="PredictiveProgress" Value="0"/>
+                </c:PredicatedAnimation.Completion>
+            </c:PredicatedAnimation>
+        </Setter>
+
+        <Style Selector="^:pressing, ^:checked">
+            <Setter Property="PriorityBackgroundOpacity" Value=".3"/>
+        </Style>
+    </Style>
+
+</Styles>

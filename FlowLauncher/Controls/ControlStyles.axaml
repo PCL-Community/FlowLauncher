@@ -3,6 +3,7 @@
 
     <StyleInclude Source="FlowClickable.axaml"/>
     <StyleInclude Source="FlowButton.axaml"/>
+    <StyleInclude Source="FlowProgressButton.axaml"/>
     <StyleInclude Source="FlowMenuItem.axaml"/>
     <StyleInclude Source="FlowIconButton.axaml"/>
     <StyleInclude Source="FlowCard.axaml"/>

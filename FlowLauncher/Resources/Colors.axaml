@@ -5,6 +5,7 @@
     <Color x:Key="FlowAccent">#66CCFF</Color>
     <Color x:Key="FlowTopBarForeground">#FFF</Color>
     <sys:Double x:Key="PanelOpacity">.7</sys:Double>
+    <SolidColorBrush x:Key="FlowPanelBackground" Color="{DynamicResource FlowBackground}" Opacity="{DynamicResource PanelOpacity}"/>
 
     <!-- Theme Variants -->
     <ResourceDictionary.ThemeDictionaries>

@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:c="clr-namespace:FlowLauncher.Controls"
+             xmlns:vm="clr-namespace:FlowLauncher.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="FlowLauncher.Views.TestPage"
+             x:DataType="vm:TestViewModel">
+    <Grid Margin="10">
+        <c:FlowTitledCard Title="FlowProgressButton" Classes="CentralizedContent">
+            <Grid Height="200">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8">
+                    <c:FlowProgressButton Width="320" Text="{Binding ProgressText}"
+                                          SmallText="{Binding DisplayedSmallProgressText}" Progress="{Binding Progress}"
+                                          Command="{Binding SimulateProgressCommand}"/>
+                    <c:FlowButton Text="Reset progress" Command="{Binding ResetProgressCommand}"/>
+                    <c:FlowButton Text="Change subtitle" Command="{Binding ChangeSmallTextCommand}"/>
+                    <c:FlowButton Text="Toggle subtitle" Command="{Binding ToggleSmallTextCommand}"/>
+                </StackPanel>
+            </Grid>
+        </c:FlowTitledCard>
+    </Grid>
+</UserControl>

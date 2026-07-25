@@ -32,4 +32,10 @@ public static class Converters
     {
         return parts.FirstOrDefault(x => x != null && x is not UnsetValueType);
     });
+
+    public static readonly FuncMultiValueConverter<object?, double> Multiply = new(static parts =>
+    {
+        var values = parts.ToArray();
+        return values is [double left, double right] ? left * right : 0;
+    });
 }

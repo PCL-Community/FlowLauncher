@@ -31,3 +31,9 @@
 
 - 禁止 agent 自行编写任何 icon path，如有需要，可要求用户找到相应 icon 并贴出 path 文本，或由 agent 通过相关 api 获取
 - 不得向启动器内置资源中存放任何大于 1MB 的文件
+
+## 控件设计要求
+
+- 色系应遵循全局 FlowAccent，使用 DynamicResource 引入，携带颜色的位置应有更改颜色的过渡动画
+- 基于主题色的深浅变化使用 Opacity 实现，而不是根据主题色计算
+- 位移和宽高变动应有动画，遵循全局 SpringEasing，使用 StaticResource 引入

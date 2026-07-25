@@ -8,8 +8,7 @@
 
     <Style Selector=":is(c|FlowCard)">
         <!-- Set Defaults -->
-        <Setter Property="Background" Value="{DynamicResource FlowBackground}"/>
-        <Setter Property="Opacity" Value="{DynamicResource PanelOpacity}"/>
+        <Setter Property="Background" Value="{DynamicResource FlowPanelBackground}"/>
         <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="ContentMargin" Value="16"/>
         <Setter Property="Child"><Template><Grid ClipToBounds="True">

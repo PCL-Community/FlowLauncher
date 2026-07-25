@@ -1,8 +1,15 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="FlowLauncher.Views.ToolsPage">
-    Welcome to Avalonia!
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:c="clr-namespace:FlowLauncher.Controls"
+         xmlns:vm="clr-namespace:FlowLauncher.ViewModels"
+         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+         x:Class="FlowLauncher.Views.ToolsPage"
+         x:DataType="vm:ToolsViewModel">
+    <Grid Margin="10" RowDefinitions="*,Auto">
+        <TextBlock Text="Welcome to Avalonia!"/>
+        <c:FlowButton Grid.Row="1" Text="Progress Button Test" HorizontalAlignment="Center"
+                      Command="{Binding RootLayout.ForwardCommand}" CommandParameter="test"/>
+    </Grid>
 </UserControl>
