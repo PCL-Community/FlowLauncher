@@ -1,4 +1,4 @@
-name: Build (Nightly)
+name: Publish (Nightly)
 
 on:
   push:
@@ -14,7 +14,8 @@ on:
       - 'LICENSE*'
 
 jobs:
-  nightly:
-    uses: ./.github/workflows/build-reusable.yml
+  publish-nightly:
+    uses: ./.github/workflows/publish-reusable.yml
     with:
       debug: true
+      version: 0.0.${{ github.run_number }}

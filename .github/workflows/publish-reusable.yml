@@ -1,0 +1,222 @@
+name: Publish (Reusable)
+
+on:
+  workflow_call:
+    inputs: &workflow-inputs
+      debug:
+        description: Set build configuration to `Debug` when true.
+        required: false
+        default: false
+        type: boolean
+      native:
+        description: Build native artifacts when true.
+        required: false
+        default: false
+        type: boolean
+      version:
+        description: Version for the published packages.
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs: *workflow-inputs
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-reusable.yml
+    with:
+      debug: ${{ inputs.debug }}
+      native: ${{ inputs.native }}
+      version: ${{ inputs.version }}
+
+  package:
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            platform: windows
+            arch: win-x86
+            type: normal
+          - os: windows-latest
+            platform: windows
+            arch: win-x64
+            type: normal
+          - os: windows-latest
+            platform: windows
+            arch: win-arm64
+            type: normal
+          - os: windows-latest
+            platform: windows
+            arch: win-x86
+            type: standalone
+          - os: windows-latest
+            platform: windows
+            arch: win-x64
+            type: standalone
+          - os: windows-latest
+            platform: windows
+            arch: win-arm64
+            type: standalone
+          - os: ubuntu-latest
+            platform: linux
+            arch: linux-x64
+            type: normal
+          - os: ubuntu-latest
+            platform: linux
+            arch: linux-arm64
+            type: normal
+          - os: ubuntu-latest
+            platform: linux
+            arch: linux-x64
+            type: standalone
+          - os: ubuntu-latest
+            platform: linux
+            arch: linux-arm64
+            type: standalone
+          - os: macos-latest
+            platform: macos
+            arch: osx-x64
+            type: normal
+          - os: macos-latest
+            platform: macos
+            arch: osx-arm64
+            type: normal
+          - os: macos-latest
+            platform: macos
+            arch: osx-x64
+            type: standalone
+          - os: macos-latest
+            platform: macos
+            arch: osx-arm64
+            type: standalone
+
+    name: Package ${{ inputs.version }} ${{ matrix.type }} ${{ matrix.arch }}
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: FlowLauncher_${{ matrix.type }}_${{ matrix.arch }}${{ inputs.debug && '_debug' || '' }}
+          path: input
+
+      - name: Create Windows packages
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path package | Out-Null
+          Compress-Archive -Path input\* -DestinationPath package\FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}_portable.zip
+          @'
+          [Setup]
+          AppName=FlowLauncher
+          AppVersion=${{ inputs.version }}
+          DefaultDirName={autopf}\FlowLauncher
+          DisableProgramGroupPage=yes
+          OutputDir=package
+          OutputBaseFilename=FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}_installer
+          Compression=lzma2
+          SolidCompression=yes
+
+          [Files]
+          Source: "input\*"; DestDir: "{app}"; Flags: recursesubdirs ignoreversion
+
+          [Icons]
+          Name: "{autoprograms}\FlowLauncher"; Filename: "{app}\FlowLauncher.exe"
+          '@ | Set-Content installer.iss
+          iscc installer.iss
+
+      - name: Upload Windows packages
+        if: matrix.platform == 'windows'
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}_windows_packages
+          path: package/
+          archive: false
+          if-no-files-found: error
+
+      - name: Create Linux packages
+        if: matrix.platform == 'linux'
+        shell: bash
+        run: |
+          package_name="flowlauncher"
+          version="${{ inputs.version }}"
+          case "${{ matrix.arch }}" in
+            linux-x64) package_arch="amd64"; arch_package_arch="x86_64" ;;
+            linux-arm64) package_arch="arm64"; arch_package_arch="aarch64" ;;
+          esac
+          mkdir -p package/deb/DEBIAN package/deb/opt/FlowLauncher package/deb/usr/bin package/arch/opt/FlowLauncher package/arch/usr/bin
+          cp -a input/. package/deb/opt/FlowLauncher/
+          cp -a input/. package/arch/opt/FlowLauncher/
+          chmod +x package/deb/opt/FlowLauncher/FlowLauncher package/arch/opt/FlowLauncher/FlowLauncher
+          ln -s /opt/FlowLauncher/FlowLauncher package/deb/usr/bin/flowlauncher
+          ln -s /opt/FlowLauncher/FlowLauncher package/arch/usr/bin/flowlauncher
+          printf 'Package: %s\nVersion: %s\nArchitecture: %s\nMaintainer: FlowLauncher\nDescription: Minecraft launcher\n' "$package_name" "$version" "$package_arch" > package/deb/DEBIAN/control
+          printf 'pkgname = %s\npkgver = %s\npkgdesc = Minecraft launcher\narch = %s\n' "$package_name" "$version" "$arch_package_arch" > package/arch/.PKGINFO
+          dpkg-deb --build package/deb package/FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}.deb
+          tar --zstd -cf package/FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}.pkg.tar.zst -C package/arch .
+          tar -czf package/FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}.tar.gz -C input .
+
+      - name: Upload Linux packages
+        if: matrix.platform == 'linux'
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}_linux_packages
+          path: |
+            package/*.deb
+            package/*.pkg.tar.zst
+            package/*.tar.gz
+          archive: false
+          if-no-files-found: error
+
+      - name: Create macOS app bundle
+        if: matrix.platform == 'macos'
+        shell: bash
+        run: |
+          app_name="Flow Launcher.app"
+          mkdir -p "package/$app_name/Contents/MacOS"
+          cp -a input/. "package/$app_name/Contents/MacOS/"
+          chmod +x "package/$app_name/Contents/MacOS/FlowLauncher"
+          cat > "package/$app_name/Contents/Info.plist" <<'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>CFBundleExecutable</key>
+            <string>FlowLauncher</string>
+            <key>CFBundleIdentifier</key>
+            <string>cc.pclc.flowlauncher.app</string>
+            <key>CFBundleName</key>
+            <string>FlowLauncher</string>
+            <key>CFBundlePackageType</key>
+            <string>APPL</string>
+            <key>CFBundleShortVersionString</key>
+            <string>${{ inputs.version }}</string>
+          </dict>
+          </plist>
+          EOF
+
+      - name: Upload macOS app bundle
+        if: matrix.platform == 'macos'
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}.app
+          path: package/*.app
+          if-no-files-found: error
+
+  cleanup:
+    needs: package
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Delete build artifacts
+        uses: geekyeggo/delete-artifact@v6
+        with:
+          name: |
+            FlowLauncher_normal_*
+            FlowLauncher_standalone_*
+            FlowLauncher_native_*

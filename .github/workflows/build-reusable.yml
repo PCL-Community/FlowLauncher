@@ -13,6 +13,11 @@ on:
         required: false
         default: false
         type: boolean
+      version:
+        description: Set the application version when provided.
+        required: false
+        default: ''
+        type: string
   workflow_dispatch: 
     inputs: *workflow-inputs
 
@@ -48,9 +53,10 @@ jobs:
       - name: Build
         run: >-
           dotnet publish FlowLauncher/FlowLauncher.csproj
-          -p:PublishType=${{ matrix.type }}
-          -p:RuntimeIdentifier=${{ matrix.arch }}
-          ${{ inputs.debug && '-p:Configuration=Debug' || '' }}
+           -p:PublishType=${{ matrix.type }}
+           -p:RuntimeIdentifier=${{ matrix.arch }}
+           ${{ inputs.debug && '-p:Configuration=Debug' || '' }}
+           ${{ inputs.version && format('-p:Version={0}', inputs.version) || '' }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v7.0.1
