@@ -13,6 +13,10 @@ on:
       - 'docs/**'
       - 'LICENSE*'
 
+permissions:
+  actions: write
+  contents: read
+
 jobs:
   publish-nightly:
     uses: ./.github/workflows/publish-reusable.yml
