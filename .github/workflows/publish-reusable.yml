@@ -130,12 +130,21 @@ jobs:
           '@ | Set-Content installer.iss
           iscc installer.iss
 
-      - name: Upload Windows packages
+      - name: Upload Windows installer
         if: matrix.platform == 'windows'
         uses: actions/upload-artifact@v7.0.1
         with:
-          name: FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}_windows_packages
-          path: package/
+          name: FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}_installer
+          path: package/FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}_installer.exe
+          archive: false
+          if-no-files-found: error
+
+      - name: Upload Windows portable package
+        if: matrix.platform == 'windows'
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}_portable
+          path: package/FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}_portable.zip
           archive: false
           if-no-files-found: error
 
@@ -161,15 +170,30 @@ jobs:
           tar --zstd -cf package/FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}.pkg.tar.zst -C package/arch .
           tar -czf package/FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}.tar.gz -C input .
 
-      - name: Upload Linux packages
+      - name: Upload Debian package
         if: matrix.platform == 'linux'
         uses: actions/upload-artifact@v7.0.1
         with:
-          name: FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}_linux_packages
-          path: |
-            package/*.deb
-            package/*.pkg.tar.zst
-            package/*.tar.gz
+          name: FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}_deb
+          path: package/FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}.deb
+          archive: false
+          if-no-files-found: error
+
+      - name: Upload Arch package
+        if: matrix.platform == 'linux'
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}_arch
+          path: package/FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}.pkg.tar.zst
+          archive: false
+          if-no-files-found: error
+
+      - name: Upload Linux tarball
+        if: matrix.platform == 'linux'
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}_tarball
+          path: package/FlowLauncher_${{ inputs.version }}_${{ matrix.type }}_${{ matrix.arch }}.tar.gz
           archive: false
           if-no-files-found: error
 
